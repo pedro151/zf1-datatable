@@ -1,0 +1,14 @@
+{
+    "name": "pedro151/zf1-datatable",
+    "description": "complemento do zend framework 1 para adicionar o DataTable.js",
+    "require": {
+        "pedro151/zendx": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pedro Alarcão",
+            "email": "phacl@hotmail.com"
+        }
+    ]
+}
