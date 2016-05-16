@@ -61,7 +61,7 @@ class ZfComplement_View_Helper_DataTableButton extends ZfComplement_View_Helper_
         $base = $this->view->baseUrl ();
         $this->jquery = $this->view->JQuery ();
         $this->jquery->enable ();
-        $this->jquery->addJavascriptFile ($base . self::BOOTBOX );
+        $this->jquery->addJavascriptFile ( $base . self::BOOTBOX );
 
         $info = $this->_getInfo ( $name , $value , $attribs );
         extract ( $info ); // name, value, attribs, options, disable
@@ -75,7 +75,9 @@ class ZfComplement_View_Helper_DataTableButton extends ZfComplement_View_Helper_
             $modal = ' modal="' . $options[ 'modal' ] . '"';
         }
 
-        $url = isset( $options [ "url" ] ) ? $options [ "url" ] : '';
+        $url = isset( $options [ "url" ] ) && is_array ( $options [ "url" ] )
+            ? $options [ "url" ] : array ();
+        $url = $this->view->url ( $url );
         $xhtml = '<th'
                  . ' id="' . $this->view->escape ( $id ) . '"'
                  . ' url="' . $url . '"'
@@ -97,7 +99,7 @@ class ZfComplement_View_Helper_DataTableButton extends ZfComplement_View_Helper_
     }
 
     /**
-     * @param                          $id
+     * @param                                  $id
      * @param  ZfComplement_DataTable_Create[] $content
      */
     public function createJscript ( $attribs )
@@ -106,7 +108,7 @@ class ZfComplement_View_Helper_DataTableButton extends ZfComplement_View_Helper_
         {
             return;
         }
-        $json_param = json_encode($attribs[ 'paramJs' ]);
+        $json_param = json_encode ( $attribs[ 'paramJs' ] );
         $id = $attribs[ 'id' ];
 
         $_js = "bootbox.setDefaults({ locale: 'br'});"
@@ -136,7 +138,7 @@ class ZfComplement_View_Helper_DataTableButton extends ZfComplement_View_Helper_
                . "}"
                . "});"
                . "}else{"
-               . " window.location.href =  url;"
+               . " window.location.href = url;"
                . "}"
                . "} );";
 
