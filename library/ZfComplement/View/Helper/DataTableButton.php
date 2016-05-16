@@ -110,7 +110,7 @@ class ZfComplement_View_Helper_DataTableButton extends ZfComplement_View_Helper_
         $id = $attribs[ 'id' ];
 
         $_js = "bootbox.setDefaults({ locale: 'br'});"
-               . "%s('#{main} tbody').on( 'click', 'td.col-button > span.btn', function () {"
+               . "%s('#{main} tbody').on( 'click', 'td.col-button > span.{$id}', function () {"
                . "var table = {main}.DataTable();"
                . "var _cell =  $(this).parent();"
                . "var rowIdx = table.cell(_cell ).index().row;"

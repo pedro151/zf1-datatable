@@ -33,14 +33,14 @@ require_once 'Zend/View/Helper/FormElement.php';
  */
 class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
 {
-    const FILE_DATATABLE = 'jquery.dataTables.min.js';
-    const FOLDER_LOCAL = '/components/datatables/media/js/';
-    const FILE_DATATABLE_BOOTSTRAP = '/components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js';
-    const FILE_DATATABLE_PIPELINE = '/components/datatables-plugins/cache/pipelining.js';
-    const FILE_DATATABLE_CSS = '/components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css';
+    const FILE_DATATABLE            = 'jquery.dataTables.min.js';
+    const FOLDER_LOCAL              = '/components/datatables/media/js/';
+    const FILE_DATATABLE_BOOTSTRAP  = '/components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js';
+    const FILE_DATATABLE_PIPELINE   = '/components/datatables-plugins/cache/pipelining.js';
+    const FILE_DATATABLE_CSS        = '/components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css';
     const DEFAULT_DATATABLE_VERSION = "1.10.11";
-    const CDN_BASE_DATATABLE = "http://cdn.datatables.net/";
-    const CDN_SUBFOLDER_DATATABLE = '/js/';
+    const CDN_BASE_DATATABLE        = "http://cdn.datatables.net/";
+    const CDN_SUBFOLDER_DATATABLE   = '/js/';
 
     protected $_version = self::DEFAULT_DATATABLE_VERSION;
     protected $_urlAjax;
@@ -48,49 +48,53 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
     protected $_attribs;
     protected $_id;
     protected $cachePages;
-    private $_datatableLibraryPath;
+    private   $_datatableLibraryPath;
 
     /**
      * Render HTML form
      *
-     * @param  string $name Form name
-     * @param  null|array $attribs HTML form attributes
+     * @param  string                          $name    Form name
+     * @param  null|array                      $attribs HTML form attributes
      * @param  ZfComplement_DataTable_Create[] $content content
      *
      * @return string
      */
-    public function DataTable($name, $attribs = null, $content = false)
+    public function DataTable ( $name , $attribs = null , $content = false )
     {
-        $info = $this->_getInfo($name, $attribs);
-        extract($info);
+        $info = $this->_getInfo ( $name , $attribs );
+        extract ( $info );
         $this->_id = $id;
         $this->_attribs = $attribs;
 
-        $this->createJscript($content);
+        $this->createJscript ( $content );
 
-        if (!empty($id)) {
-            $id = ' id="' . $this->view->escape($id) . '"';
+        if ( ! empty( $id ) )
+        {
+            $id = ' id="' . $this->view->escape ( $id ) . '"';
         }
 
-        if (array_key_exists('id', $attribs) && empty($attribs['id'])) {
-            unset($attribs['id']);
+        if ( array_key_exists ( 'id' , $attribs ) && empty( $attribs[ 'id' ] ) )
+        {
+            unset( $attribs[ 'id' ] );
         }
 
-        if (!empty($name) && !($this->_isXhtml() && $this->_isStrictDoctype())) {
-            $name = ' name="' . $this->view->escape($name) . '"';
+        if ( ! empty( $name ) && ! ( $this->_isXhtml () && $this->_isStrictDoctype () ) )
+        {
+            $name = ' name="' . $this->view->escape ( $name ) . '"';
         }
 
-        if (array_key_exists('name', $attribs) && empty($attribs['id'])) {
-            unset($attribs['id']);
+        if ( array_key_exists ( 'name' , $attribs ) && empty( $attribs[ 'id' ] ) )
+        {
+            unset( $attribs[ 'id' ] );
         }
 
         $xhtml = '<table cellpadding="0" cellspacing="0" border="0" '
-            . $id
-            . $name
-            . $this->_htmlAttribs($attribs)
-            . '><thead>
+                 . $id
+                 . $name
+                 . $this->_htmlAttribs ( $attribs )
+                 . '><thead>
             <tr role="row">';
-        $xhtml .= $this->createContent($content);
+        $xhtml .= $this->createContent ( $content );
         $xhtml .= '</tr></thead></table>';
 
         return $xhtml;
@@ -99,28 +103,31 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
     /**
      * @param  ZfComplement_DataTable_Create[] $content content
      */
-    public function createContent($content)
+    public function createContent ( $content )
     {
         $xhtml = '';
-        if (false !== $content) {
-            foreach ($content as $contentCreate) {
-                $xhtml .= $contentCreate->getContent();
+        if ( false !== $content )
+        {
+            foreach ( $content as $contentCreate )
+            {
+                $xhtml .= $contentCreate->getContent ();
             }
         }
 
         return $xhtml;
     }
 
-
     /**
      * Set the version of the DataTable library used.
      *
      * @param string $version
+     *
      * @return ZendX_JQuery_View_Helper_JQuery_Container
      */
-    public function setVersion($version)
+    public function setVersion ( $version )
     {
         $this->_version = $version;
+
         return $this;
     }
 
@@ -129,7 +136,7 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      *
      * @return string
      */
-    public function getVersion()
+    public function getVersion ()
     {
         return $this->_version;
     }
@@ -138,11 +145,13 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      * Set path to local jQuery library
      *
      * @param  string $path
+     *
      * @return ZendX_JQuery_View_Helper_JQuery_Container
      */
-    public function setLocalPath($path)
+    public function setLocalPath ( $path )
     {
-        $this->_datatableLibraryPath = (string)$path;
+        $this->_datatableLibraryPath = (string) $path;
+
         return $this;
     }
 
@@ -151,15 +160,17 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      *
      * @return string
      */
-    protected function _getDataTableLibraryPath()
+    protected function _getDataTableLibraryPath ()
     {
-        if ($this->_datatableLibraryPath != null) {
+        if ( $this->_datatableLibraryPath != null )
+        {
             $source = $this->_datatableLibraryPath;
-        } else {
+        } else
+        {
             $source = self::CDN_BASE_DATATABLE .
-                $this->getVersion() .
-                self::CDN_SUBFOLDER_DATATABLE .
-                self::FILE_DATATABLE;
+                      $this->getVersion () .
+                      self::CDN_SUBFOLDER_DATATABLE .
+                      self::FILE_DATATABLE;
         }
 
         return $source;
@@ -168,50 +179,51 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
     /**
      * insere toda a estrutura e arquivos Javascript na pagina
      *
-     * @param                          $id
+     * @param                                  $id
      * @param  ZfComplement_DataTable_Create[] $content
      */
-    public function createJscript($content)
+    public function createJscript ( $content )
     {
-        $base = $this->view->baseUrl();
-        $this->jquery = $this->view->JQuery();
-        $this->jquery->enable();
-        $this->jquery->addJavascriptFile($this->_getDataTableLibraryPath());
-        $this->jquery->addJavascriptFile($base . self::FILE_DATATABLE_BOOTSTRAP);
-        $this->jquery->addStylesheet($base . self::FILE_DATATABLE_CSS);
+        $base = $this->view->baseUrl ();
+        $this->jquery = $this->view->JQuery ();
+        $this->jquery->enable ();
+        $this->jquery->addJavascriptFile ( $this->_getDataTableLibraryPath () );
+        $this->jquery->addJavascriptFile ( $base . self::FILE_DATATABLE_BOOTSTRAP );
+        $this->jquery->addStylesheet ( $base . self::FILE_DATATABLE_CSS );
 
-        $paramsJson = $this->_createDataTableParam($content);
+        $paramsJson = $this->_createDataTableParam ( $content );
 
-        $js = sprintf(
-            'var %s = %s("%s").dataTable(%s);',
-            $this->_id,
-            ZendX_JQuery_View_Helper_JQuery::getJQueryHandler(),
-            'table#' . $this->_id,
-            json_encode($paramsJson)
+        $js = sprintf (
+            'var %s = %s("%s").dataTable(%s);' ,
+            $this->_id ,
+            ZendX_JQuery_View_Helper_JQuery::getJQueryHandler () ,
+            'table#' . $this->_id ,
+            json_encode ( $paramsJson )
         );
 
-        if ($this->isCached()) {
-            $this->jquery->addJavascriptFile($base . self::FILE_DATATABLE_PIPELINE);
+        if ( $this->isCached () )
+        {
+            $this->jquery->addJavascriptFile ( $base . self::FILE_DATATABLE_PIPELINE );
 
-            $paramsAjax = array(
-                "pages" => $this->getPages(), // number of pages to cache
-                "url" => $this->getAjax(),// script url
-                "method" => $this->getType(),// Ajax HTTP method
+            $paramsAjax = array (
+                "pages"  => $this->getPages () , // number of pages to cache
+                "url"    => $this->getAjax () ,// script url
+                "method" => $this->getType () ,// Ajax HTTP method
             );
 
-            $js = sprintf(
-                'var %s = %s("%s").dataTable({%s,"%s" : %2$s.fn.dataTable.pipeline(%s)});',
-                $this->_id,
-                ZendX_JQuery_View_Helper_JQuery::getJQueryHandler(),
-                'table#' . $this->_id,
-                rtrim(ltrim(Zend_Json::encode($paramsJson), "{"), "}"),
-                'ajax',
-                Zend_Json::encode($paramsAjax)
+            $js = sprintf (
+                'var %s = %s("%s").dataTable({%s,"%s" : %2$s.fn.dataTable.pipeline(%s)});' ,
+                $this->_id ,
+                ZendX_JQuery_View_Helper_JQuery::getJQueryHandler () ,
+                'table#' . $this->_id ,
+                rtrim ( ltrim ( Zend_Json::encode ( $paramsJson ) , "{" ) , "}" ) ,
+                'ajax' ,
+                Zend_Json::encode ( $paramsAjax )
             );
         }
 
-        $this->jquery->addOnLoad($js);
-        $this->buttomJs($content);
+        $this->jquery->addOnLoad ( $js );
+        $this->buttomJs ( $content );
     }
 
     /**
@@ -219,67 +231,81 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      *
      * @param ZfComplement_DataTable_Create[] $content
      */
-    public function _createDataTableParam($content)
+    public function _createDataTableParam ( $content )
     {
-        $paramsJs = array(
-            "columnDefs" => array(),
-            "ordering" => false
+        $paramsJs = array (
+            "columnDefs" => array () ,
+            "ordering"   => false
         );
 
-        $paramsJs = array_merge($paramsJs, $this->_attribs);
+        $paramsJs = array_merge ( $paramsJs , $this->_attribs );
 
-        if ($this->hasAjax()) {
-            $paramsJs["processing"] = true;
-            $paramsJs["serverSide"] = true;
-            if (!$this->isCached()) {
-                $paramsJs['ajax'] = array(
-                    "url" => $this->getAjax(),
-                    "type" => $this->getType()
+        if ( $this->hasAjax () )
+        {
+            $paramsJs[ "processing" ] = true;
+            $paramsJs[ "serverSide" ] = true;
+            if ( ! $this->isCached () )
+            {
+                $paramsJs[ 'ajax' ] = array (
+                    "url"  => $this->getAjax () ,
+                    "type" => $this->getType ()
                 );
             }
 
         }
 
-        if (!is_array($content)) {
-            return json_encode($paramsJs);
+        if ( ! is_array ( $content ) )
+        {
+            return json_encode ( $paramsJs );
         }
 
-        foreach ($content as $key => $objCreate) {
-            if ($objCreate->isDesabled()) {
-                $paramsJs["columnDefs"][] = array(
-                    "targets" => array($key),
-                    "visible" => false,
+        foreach ( $content as $key => $objCreate )
+        {
+            if ( $objCreate->isDesabled () )
+            {
+                $paramsJs[ "columnDefs" ][] = array (
+                    "targets"    => array ( $key ) ,
+                    "visible"    => false ,
                     "searchable" => false
                 );
             }
 
-            $paramsJs["columns"][$key]["name"] = $objCreate->getId();
-            if ($this->hasAjax() && !$objCreate->isButtom()) {
-                $paramsJs["columns"][$key]["data"] = $objCreate->getId();
+            $paramsJs[ "columns" ][ $key ][ "name" ] = $objCreate->getId ();
+            if ( $this->hasAjax () && ! $objCreate->isButtom () )
+            {
+                $paramsJs[ "columns" ][ $key ][ "data" ] = $objCreate->getId ();
             }
 
-            if ($objCreate->isButtom()) {
-                $classButtom = $objCreate->hasOption('className') ? $objCreate->getOption('className') : 'btn-primary';
-                $whidth = $objCreate->hasOption('width') ? $objCreate->getOption('width') : '10%';
-                $objCreate->setOption('width', $whidth);
-                $paramsJs["columns"][$key]["searchable"] = false;
-                $paramsJs["columns"][$key]["className"] = 'col-button';
-                $paramsJs["columns"][$key]["data"] = null;
-                $paramsJs["columns"][$key]["defaultContent"] = '<span class="btn '
-                    . $classButtom
-                    . '">' .
-                    $objCreate->getValue()
-                    . '</span>';
+            if ( $objCreate->isButtom () )
+            {
+                $classButtom = $objCreate->hasOption ( 'className' )
+                    ? $objCreate->getOption ( 'className' ) : 'btn-primary';
+                $whidth = $objCreate->hasOption ( 'width' )
+                    ? $objCreate->getOption ( 'width' ) : '5%';
+                $objCreate->setOption ( 'width' , $whidth );
+                $paramsJs[ "columns" ][ $key ][ "searchable" ] = false;
+                $paramsJs[ "columns" ][ $key ][ "className" ] = 'col-button';
+                $paramsJs[ "columns" ][ $key ][ "data" ] = null;
+                $paramsJs[ "columns" ][ $key ][ "defaultContent" ] = '<span class="btn '
+                                                                     . $objCreate->getId ()
+                                                                     . ' '
+                                                                     . $classButtom
+                                                                     . '">' .
 
+                                                                     $objCreate->getValue ()
+                                                                     . '</span>';
             }
 
-            if ($objCreate->hasOptions()) {
-                foreach ($objCreate->getOptions() as $opcao => $value) {
-                    if (($opcao === 'className' && $objCreate->isButtom())) {
+            if ( $objCreate->hasOptions () )
+            {
+                foreach ( $objCreate->getOptions () as $opcao => $value )
+                {
+                    if ( ( $opcao === 'className' && $objCreate->isButtom () ) )
+                    {
                         continue;
                     }
 
-                    $paramsJs["columns"][$key][$opcao] = $value;
+                    $paramsJs[ "columns" ][ $key ][ $opcao ] = $value;
 
                 }
             }
@@ -293,15 +319,18 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      *
      * @param ZfComplement_DataTable_Create[] $content
      */
-    public function buttomJs($content)
+    public function buttomJs ( $content )
     {
-        if (!is_array($content)) {
+        if ( ! is_array ( $content ) )
+        {
             return;
         }
 
-        foreach ($content as $key => $objCreate) {
-            if ($objCreate->hasJscript()) {
-                $this->jquery->addOnLoad(str_replace('{main}', $this->_id, $objCreate->getJscript()));
+        foreach ( $content as $key => $objCreate )
+        {
+            if ( $objCreate->hasJscript () )
+            {
+                $this->jquery->addOnLoad ( str_replace ( '{main}' , $this->_id , $objCreate->getJscript () ) );
             }
         }
 
@@ -321,161 +350,177 @@ class ZfComplement_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      * @return array An element info array with keys for name, value,
      * attribs, options, listsep, disable, and escape.
      */
-    protected function _getInfo(
-        $name,
-        $attribs = null,
+    protected function _getInfo (
+        $name ,
+        $attribs = null ,
         $options = null
-    )
-    {
+    ){
         // the baseline info.  note that $name serves a dual purpose;
         // if an array, it's an element info array that will override
         // these baseline values.  as such, ignore it for the 'name'
         // if it's an array.
-        $info = array(
-            'name' => is_array($name) ? '' : $name,
-            'id' => is_array($name) ? '' : $name,
-            'attribs' => $attribs,
-            'options' => $options,
-            'disable' => false,
-            'escape' => true,
+        $info = array (
+            'name'    => is_array ( $name ) ? '' : $name ,
+            'id'      => is_array ( $name ) ? '' : $name ,
+            'attribs' => $attribs ,
+            'options' => $options ,
+            'disable' => false ,
+            'escape'  => true ,
         );
 
         // override with named args
-        if (is_array($name)) {
+        if ( is_array ( $name ) )
+        {
             // only set keys that are already in info
-            foreach ($info as $key => $val) {
-                if (isset($name[$key])) {
-                    $info[$key] = $name[$key];
+            foreach ( $info as $key => $val )
+            {
+                if ( isset( $name[ $key ] ) )
+                {
+                    $info[ $key ] = $name[ $key ];
                 }
             }
 
             // If all helper options are passed as an array, attribs may have
             // been as well
-            if (null === $attribs) {
-                $attribs = $info['attribs'];
+            if ( null === $attribs )
+            {
+                $attribs = $info[ 'attribs' ];
             }
         }
 
-        $attribs = (array)$attribs;
+        $attribs = (array) $attribs;
 
 
         // Set ID for element
-        if (array_key_exists('id', $attribs)) {
-            $info['id'] = (string)$attribs['id'];
-        } else {
-            if ('' !== $info['name']) {
-                $info['id'] = trim(
-                    strtr(
-                        $info['name'],
-                        array('[' => '-', ']' => '')
-                    ),
+        if ( array_key_exists ( 'id' , $attribs ) )
+        {
+            $info[ 'id' ] = (string) $attribs[ 'id' ];
+        } else
+        {
+            if ( '' !== $info[ 'name' ] )
+            {
+                $info[ 'id' ] = trim (
+                    strtr (
+                        $info[ 'name' ] ,
+                        array ( '[' => '-' , ']' => '' )
+                    ) ,
                     '-'
                 );
             }
         }
 
         // Remove NULL name attribute override
-        if (array_key_exists('name', $attribs) && is_null($attribs['name'])) {
-            unset($attribs['name']);
+        if ( array_key_exists ( 'name' , $attribs ) && is_null ( $attribs[ 'name' ] ) )
+        {
+            unset( $attribs[ 'name' ] );
         }
 
         // Override name in info if specified in attribs
-        if (array_key_exists('name', $attribs)
-            && $attribs['name'] != $info['name']
-        ) {
-            $info['name'] = $attribs['name'];
+        if ( array_key_exists ( 'name' , $attribs )
+             && $attribs[ 'name' ] != $info[ 'name' ]
+        )
+        {
+            $info[ 'name' ] = $attribs[ 'name' ];
         }
 
-        if (array_key_exists('ajax', $attribs) && is_null($attribs['ajax'])) {
-            unset($attribs['ajax']);
-        }
-
-        // Override name in info if specified in attribs
-        if (array_key_exists('ajax', $attribs)) {
-            $this->setAjax($attribs['ajax']);
-
-        }
-
-        if (array_key_exists('method', $attribs)
-            && array_key_exists('ajax', $attribs)
-            && is_null($attribs['ajax'])
-        ) {
-            unset($attribs['method']);
-            unset($attribs['ajax']);
+        if ( array_key_exists ( 'ajax' , $attribs ) && is_null ( $attribs[ 'ajax' ] ) )
+        {
+            unset( $attribs[ 'ajax' ] );
         }
 
         // Override name in info if specified in attribs
-        if (array_key_exists('method', $attribs)) {
-            $this->setType($attribs['method']);
-            unset($attribs['method']);
+        if ( array_key_exists ( 'ajax' , $attribs ) )
+        {
+            $this->setAjax ( $attribs[ 'ajax' ] );
+
+        }
+
+        if ( array_key_exists ( 'method' , $attribs )
+             && array_key_exists ( 'ajax' , $attribs )
+             && is_null ( $attribs[ 'ajax' ] )
+        )
+        {
+            unset( $attribs[ 'method' ] );
+            unset( $attribs[ 'ajax' ] );
         }
 
         // Override name in info if specified in attribs
-        if (array_key_exists('cache', $attribs)
-            && array_key_exists('pages', $attribs['cache'])
-        ) {
-            $this->setPages($attribs['cache']['pages']);
-            unset($attribs['cache']);
+        if ( array_key_exists ( 'method' , $attribs ) )
+        {
+            $this->setType ( $attribs[ 'method' ] );
+            unset( $attribs[ 'method' ] );
+        }
+
+        // Override name in info if specified in attribs
+        if ( array_key_exists ( 'cache' , $attribs )
+             && array_key_exists ( 'pages' , $attribs[ 'cache' ] )
+        )
+        {
+            $this->setPages ( $attribs[ 'cache' ][ 'pages' ] );
+            unset( $attribs[ 'cache' ] );
         }
 
 
         // Determine escaping from attributes
-        if (array_key_exists('escape', $attribs)) {
-            $info['escape'] = (bool)$attribs['escape'];
+        if ( array_key_exists ( 'escape' , $attribs ) )
+        {
+            $info[ 'escape' ] = (bool) $attribs[ 'escape' ];
         }
 
 
         // Remove attribs that might overwrite the other keys. We do this LAST
         // because we needed the other attribs values earlier.
-        foreach ($info as $key => $val) {
-            if (array_key_exists($key, $attribs)) {
-                unset($attribs[$key]);
+        foreach ( $info as $key => $val )
+        {
+            if ( array_key_exists ( $key , $attribs ) )
+            {
+                unset( $attribs[ $key ] );
             }
         }
-        $info['attribs'] = $attribs;
+        $info[ 'attribs' ] = $attribs;
 
         // done!
         return $info;
     }
 
-    public function setAjax($urlAjax)
+    public function setAjax ( $urlAjax )
     {
         $this->_urlAjax = $urlAjax;
     }
 
-    public function setType($type)
+    public function setType ( $type )
     {
         $this->_type = $type;
     }
 
-    public function getAjax()
+    public function getAjax ()
     {
         return $this->_urlAjax;
     }
 
-    public function getType()
+    public function getType ()
     {
-        return $this->_type ?: 'GET';
+        return $this->_type ? : 'GET';
     }
 
-    public function hasAjax()
+    public function hasAjax ()
     {
-        return (bool)$this->_urlAjax;
+        return (bool) $this->_urlAjax;
     }
 
-    public function setPages($pages)
+    public function setPages ( $pages )
     {
-        $this->cachePages = (int)$pages;
+        $this->cachePages = (int) $pages;
     }
 
-    public function getPages()
+    public function getPages ()
     {
-        return (int)$this->cachePages;
+        return (int) $this->cachePages;
     }
 
-    public function isCached()
+    public function isCached ()
     {
-        return (bool)$this->cachePages;
+        return (bool) $this->cachePages;
     }
 
 }
