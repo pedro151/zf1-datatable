@@ -3,12 +3,10 @@
  *
  * @category   ZfComplement
  * @package    ZfComplement_DataTable
-
  */
 
 /** @see Zend_Filter */
 require_once 'Zend/Filter.php';
-
 
 class ZfComplement_DataTable_Element
 {
@@ -17,7 +15,6 @@ class ZfComplement_DataTable_Element
      */
     const DECORATOR = 'DECORATOR';
     const FILTER    = 'FILTER';
-
 
     /**
      * 'Allow empty' flag
@@ -33,13 +30,12 @@ class ZfComplement_DataTable_Element
      */
     protected $_description;
 
-
     /**
      * Element decorators
+     *
      * @var array
      */
-    protected $_decorators = array();
-
+    protected $_decorators = array ();
 
     /**
      * Element filters
@@ -71,9 +67,10 @@ class ZfComplement_DataTable_Element
 
     /**
      * Plugin loaders for filter and validator chains
+     *
      * @var array
      */
-    protected $_loaders = array();
+    protected $_loaders = array ();
 
     /**
      * Element name
@@ -139,6 +136,7 @@ class ZfComplement_DataTable_Element
 
     /**
      * Should we disable loading the default decorators?
+     *
      * @var bool
      */
     protected $_disableLoadDefaultDecorators = false;
@@ -153,6 +151,7 @@ class ZfComplement_DataTable_Element
      *
      * @param  string|array|Zend_Config $spec
      * @param  array|Zend_Config        $options
+     *
      * @return void
      * @throws ZfComplement_DataTable_Exception if no element name after initialization
      */
@@ -207,11 +206,13 @@ class ZfComplement_DataTable_Element
      * Set flag to disable loading default decorators
      *
      * @param  bool $flag
+     *
      * @return Zend_Form_Element
      */
-    public function setDisableLoadDefaultDecorators($flag)
+    public function setDisableLoadDefaultDecorators ( $flag )
     {
         $this->_disableLoadDefaultDecorators = (bool) $flag;
+
         return $this;
     }
 
@@ -220,7 +221,7 @@ class ZfComplement_DataTable_Element
      *
      * @return bool
      */
-    public function loadDefaultDecoratorsIsDisabled()
+    public function loadDefaultDecoratorsIsDisabled ()
     {
         return $this->_disableLoadDefaultDecorators;
     }
@@ -230,17 +231,20 @@ class ZfComplement_DataTable_Element
      *
      * @return Zend_Form_Element
      */
-    public function loadDefaultDecorators()
+    public function loadDefaultDecorators ()
     {
 
-        if ($this->loadDefaultDecoratorsIsDisabled()) {
+        if ( $this->loadDefaultDecoratorsIsDisabled () )
+        {
             return $this;
         }
 
-        $decorators = $this->getDecorators();
-        if (empty($decorators)) {
-            $this->addDecorator('ViewHelper');
+        $decorators = $this->getDecorators ();
+        if ( empty( $decorators ) )
+        {
+            $this->addDecorator ( 'ViewHelper' );
         }
+
         return $this;
     }
 
@@ -250,18 +254,19 @@ class ZfComplement_DataTable_Element
      * Passed to the HtmlTag decorator as a callback in order to provide an ID.
      *
      * @param  Zend_DataTable_Decorator_Interface $decorator
+     *
      * @return string
      */
-    public static function resolveElementId(Zend_DataTable_Decorator_Interface $decorator)
+    public static function resolveElementId ( Zend_DataTable_Decorator_Interface $decorator )
     {
-        return $decorator->getElement()->getId() . '-element';
+        return $decorator->getElement ()->getId () . '-element';
     }
-
 
     /**
      * Set object state from options array
      *
      * @param  array $options
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setOptions ( array $options )
@@ -285,9 +290,11 @@ class ZfComplement_DataTable_Element
         {
             $method = 'set' . ucfirst ( $key );
 
-            if ( in_array ( $method , array ( 'setTranslator' , 'setPluginLoader' , 'setView' ) ) )
+            if ( in_array ( $method , array (
+                'setTranslator' , 'setPluginLoader' , 'setView'
+            ) ) )
             {
-                if ( !is_object ( $value ) )
+                if ( ! is_object ( $value ) )
                 {
                     continue;
                 }
@@ -311,6 +318,7 @@ class ZfComplement_DataTable_Element
      * Set object state from Zend_Config object
      *
      * @param  Zend_Config $config
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setConfig ( Zend_Config $config )
@@ -325,6 +333,7 @@ class ZfComplement_DataTable_Element
      * Set translator object for localization
      *
      * @param  Zend_Translate|null $translator
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setTranslator ( $translator = null )
@@ -381,6 +390,7 @@ class ZfComplement_DataTable_Element
      * Indicate whether or not translation should be disabled
      *
      * @param  bool $flag
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setDisableTranslator ( $flag )
@@ -407,6 +417,7 @@ class ZfComplement_DataTable_Element
      *
      * @param  string $value
      * @param  bool   $allowBrackets
+     *
      * @return string
      */
     public function filterName ( $value , $allowBrackets = false )
@@ -424,6 +435,7 @@ class ZfComplement_DataTable_Element
      * Set element name
      *
      * @param  string $name
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setName ( $name )
@@ -486,7 +498,7 @@ class ZfComplement_DataTable_Element
         $id = $this->getFullyQualifiedName ();
 
         // Bail early if no array notation detected
-        if ( !strstr ( $id , '[' ) )
+        if ( ! strstr ( $id , '[' ) )
         {
             return $id;
         }
@@ -507,6 +519,7 @@ class ZfComplement_DataTable_Element
      * Set element value
      *
      * @param  mixed $value
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setValue ( $value )
@@ -521,6 +534,7 @@ class ZfComplement_DataTable_Element
      *
      * @param  string $value
      * @param  string $key
+     *
      * @return void
      */
     protected function _filterValue ( &$value , &$key )
@@ -553,6 +567,24 @@ class ZfComplement_DataTable_Element
     }
 
     /**
+     * @return mixed
+     */
+    public function isDesabled ()
+    {
+        return $this->getAttrib ( 'disable' );
+    }
+
+    /**
+     * @param mixed $desable
+     */
+    public function setDesabled ( $desable )
+    {
+        $this->setAttrib ( 'disable' , $desable );
+
+        return $this;
+    }
+
+    /**
      * Retrieve unfiltered element value
      *
      * @return mixed
@@ -566,6 +598,7 @@ class ZfComplement_DataTable_Element
      * Set element label
      *
      * @param  string $label
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setLabel ( $label )
@@ -595,6 +628,7 @@ class ZfComplement_DataTable_Element
      * Set element order
      *
      * @param  int $order
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setOrder ( $order )
@@ -614,11 +648,11 @@ class ZfComplement_DataTable_Element
         return $this->_order;
     }
 
-
     /**
      * Set element description
      *
      * @param  string $description
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setDescription ( $description )
@@ -638,11 +672,11 @@ class ZfComplement_DataTable_Element
         return $this->_description;
     }
 
-
     /**
      * Set ignore flag (used when retrieving values at form level)
      *
      * @param  bool $flag
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setIgnore ( $flag )
@@ -666,6 +700,7 @@ class ZfComplement_DataTable_Element
      * Set flag indicating if element represents an array
      *
      * @param  bool $flag
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setIsArray ( $flag )
@@ -684,7 +719,6 @@ class ZfComplement_DataTable_Element
     {
         return $this->_isArray;
     }
-
 
     /**
      * Return element type
@@ -706,6 +740,7 @@ class ZfComplement_DataTable_Element
      *
      * @param  string $name
      * @param  mixed  $value
+     *
      * @return ZfComplement_DataTable_Element
      * @throws ZfComplement_DataTable_Exception for invalid $name values
      */
@@ -735,6 +770,7 @@ class ZfComplement_DataTable_Element
      * Set multiple attributes at once
      *
      * @param  array $attribs
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setAttribs ( array $attribs )
@@ -751,6 +787,7 @@ class ZfComplement_DataTable_Element
      * Retrieve element attribute
      *
      * @param  string $name
+     *
      * @return string
      */
     public function getAttrib ( $name )
@@ -784,13 +821,13 @@ class ZfComplement_DataTable_Element
         return $attribs;
     }
 
-
     /**
      * Overloading: retrieve object property
      *
      * Prevents access to properties beginning with '_'.
      *
      * @param  string $key
+     *
      * @return mixed
      */
     public function __get ( $key )
@@ -803,7 +840,7 @@ class ZfComplement_DataTable_Element
             );
         }
 
-        if ( !isset( $this->$key ) )
+        if ( ! isset( $this->$key ) )
         {
             return null;
         }
@@ -816,6 +853,7 @@ class ZfComplement_DataTable_Element
      *
      * @param  string $key
      * @param  mixed  $value
+     *
      * @return voide
      */
     public function __set ( $key , $value )
@@ -830,6 +868,7 @@ class ZfComplement_DataTable_Element
      *
      * @param  string $method
      * @param  array  $args
+     *
      * @return string
      * @throws ZfComplement_DataTable_Exception for invalid decorator or invalid method call
      */
@@ -840,7 +879,7 @@ class ZfComplement_DataTable_Element
             $this->_isPartialRendering = true;
             $this->render ();
             $this->_isPartialRendering = false;
-            $decoratorName             = substr ( $method , 6 );
+            $decoratorName = substr ( $method , 6 );
             if ( false !== ( $decorator = $this->getDecorator ( $decoratorName ) ) )
             {
                 $decorator->setElement ( $this );
@@ -868,6 +907,7 @@ class ZfComplement_DataTable_Element
      *
      * @param  Zend_Loader_PluginLoader_Interface $loader
      * @param  string                             $type 'decorator', 'filter', or 'validate'
+     *
      * @return ZfComplement_DataTable_Element
      * @throws ZfComplement_DataTable_Exception on invalid type
      */
@@ -893,37 +933,48 @@ class ZfComplement_DataTable_Element
      * 'decorator', 'filter', or 'validate' for $type.
      *
      * @param  string $type
+     *
      * @return Zend_Loader_PluginLoader
      * @throws Zend_Loader_Exception on invalid type.
      */
     public function getPluginLoader ( $type )
     {
         $type = strtoupper ( $type );
-        switch ($type) {
+        switch ( $type )
+        {
             case self::FILTER:
-                $prefixSegment = ucfirst(strtolower($type));
-                $pathSegment   = $prefixSegment;
-                if (!isset($this->_loaders[$type])) {
+                $prefixSegment = ucfirst ( strtolower ( $type ) );
+                $pathSegment = $prefixSegment;
+                if ( ! isset( $this->_loaders[ $type ] ) )
+                {
                     require_once 'Zend/Loader/PluginLoader.php';
-                    $this->_loaders[$type] = new Zend_Loader_PluginLoader(
-                        array('Zend_' . $prefixSegment . '_' => 'Zend/' . $pathSegment . '/')
+                    $this->_loaders[ $type ] = new Zend_Loader_PluginLoader(
+                        array (
+                            'Zend_' . $prefixSegment . '_' => 'Zend/' . $pathSegment . '/'
+                        )
                     );
                 }
             case self::DECORATOR:
-                if (!isset($prefixSegment)) {
+                if ( ! isset( $prefixSegment ) )
+                {
                     $prefixSegment = 'DataTable_Decorator';
-                    $pathSegment   = 'DataTable/Decorator';
+                    $pathSegment = 'DataTable/Decorator';
                 }
-                if (!isset($this->_loaders[$type])) {
+                if ( ! isset( $this->_loaders[ $type ] ) )
+                {
                     require_once 'Zend/Loader/PluginLoader.php';
-                    $this->_loaders[$type] = new Zend_Loader_PluginLoader(
-                        array('ZfComplement_' . $prefixSegment . '_' => 'ZfComplement/' . $pathSegment . '/')
+                    $this->_loaders[ $type ] = new Zend_Loader_PluginLoader(
+                        array (
+                            'ZfComplement_' . $prefixSegment . '_' => 'ZfComplement/'
+                                                                      . $pathSegment . '/'
+                        )
                     );
                 }
-                return $this->_loaders[$type];
+
+                return $this->_loaders[ $type ];
             default:
                 require_once 'ZfComplement/DateTable/Exception.php';
-                throw new Zend_Form_Exception(sprintf('Invalid type "%s" provided to getPluginLoader()', $type));
+                throw new Zend_Form_Exception( sprintf ( 'Invalid type "%s" provided to getPluginLoader()' , $type ) );
         }
     }
 
@@ -939,6 +990,7 @@ class ZfComplement_DataTable_Element
      * @param  string $prefix
      * @param  string $path
      * @param  string $type
+     *
      * @return ZfComplement_DataTable_Element
      * @throws ZfComplement_DataTable_Exception for invalid type
      */
@@ -955,13 +1007,14 @@ class ZfComplement_DataTable_Element
                 return $this;
             case null:
                 $nsSeparator = ( false !== strpos ( $prefix , '\\' ) ) ? '\\' : '_';
-                $prefix      = rtrim ( $prefix , $nsSeparator ) . $nsSeparator;
-                $path        = rtrim ( $path , DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
+                $prefix = rtrim ( $prefix , $nsSeparator ) . $nsSeparator;
+                $path = rtrim ( $path , DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
                 foreach ( array ( self::DECORATOR , self::FILTER ) as $type )
                 {
-                    $cType  = ucfirst ( strtolower ( $type ) );
+                    $cType = ucfirst ( strtolower ( $type ) );
                     $loader = $this->getPluginLoader ( $type );
-                    $loader->addPrefixPath ( $prefix . $cType , $path . $cType . DIRECTORY_SEPARATOR );
+                    $loader->addPrefixPath ( $prefix . $cType , $path . $cType
+                                                                . DIRECTORY_SEPARATOR );
                 }
 
                 return $this;
@@ -975,6 +1028,7 @@ class ZfComplement_DataTable_Element
      * Add many prefix paths at once
      *
      * @param  array $spec
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function addPrefixPaths ( array $spec )
@@ -996,9 +1050,9 @@ class ZfComplement_DataTable_Element
                     }
                     $this->addPrefixPath ( $paths[ 'prefix' ] , $paths[ 'path' ] , $type );
                 }
-            } elseif ( !is_numeric ( $type ) )
+            } elseif ( ! is_numeric ( $type ) )
             {
-                if ( !isset( $paths[ 'prefix' ] ) || !isset( $paths[ 'path' ] ) )
+                if ( ! isset( $paths[ 'prefix' ] ) || ! isset( $paths[ 'path' ] ) )
                 {
                     foreach ( $paths as $prefix => $spec )
                     {
@@ -1006,7 +1060,7 @@ class ZfComplement_DataTable_Element
                         {
                             foreach ( $spec as $path )
                             {
-                                if ( !is_string ( $path ) )
+                                if ( ! is_string ( $path ) )
                                 {
                                     continue;
                                 }
@@ -1034,6 +1088,7 @@ class ZfComplement_DataTable_Element
      * Add a filter to the element
      *
      * @param  string|Zend_Filter_Interface $filter
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function addFilter ( $filter , $options = array () )
@@ -1043,8 +1098,8 @@ class ZfComplement_DataTable_Element
             $name = get_class ( $filter );
         } elseif ( is_string ( $filter ) )
         {
-            $name                    = $filter;
-            $filter                  = array (
+            $name = $filter;
+            $filter = array (
                 'filter'  => $filter ,
                 'options' => $options ,
             );
@@ -1066,6 +1121,7 @@ class ZfComplement_DataTable_Element
      * Add filters to element
      *
      * @param  array $filters
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function addFilters ( array $filters )
@@ -1080,7 +1136,7 @@ class ZfComplement_DataTable_Element
                 $this->addFilter ( $filterInfo );
             } elseif ( is_array ( $filterInfo ) )
             {
-                $argc    = count ( $filterInfo );
+                $argc = count ( $filterInfo );
                 $options = array ();
                 if ( isset( $filterInfo[ 'filter' ] ) )
                 {
@@ -1119,6 +1175,7 @@ class ZfComplement_DataTable_Element
      * Add filters to element, overwriting any already existing
      *
      * @param  array $filters
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setFilters ( array $filters )
@@ -1132,11 +1189,12 @@ class ZfComplement_DataTable_Element
      * Retrieve a single filter by name
      *
      * @param  string $name
+     *
      * @return Zend_Filter_Interface
      */
     public function getFilter ( $name )
     {
-        if ( !isset( $this->_filters[ $name ] ) )
+        if ( ! isset( $this->_filters[ $name ] ) )
         {
             $len = strlen ( $name );
             foreach ( $this->_filters as $localName => $filter )
@@ -1183,7 +1241,7 @@ class ZfComplement_DataTable_Element
                 $filters[ $key ] = $value;
                 continue;
             }
-            $filter                           = $this->_loadFilter ( $value );
+            $filter = $this->_loadFilter ( $value );
             $filters[ get_class ( $filter ) ] = $filter;
         }
 
@@ -1194,6 +1252,7 @@ class ZfComplement_DataTable_Element
      * Remove a filter by name
      *
      * @param  string $name
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function removeFilter ( $name )
@@ -1239,6 +1298,7 @@ class ZfComplement_DataTable_Element
      * Set view object
      *
      * @param  Zend_View_Interface $view
+     *
      * @return ZfComplement_DataTable_Element
      */
     public function setView ( Zend_View_Interface $view = null )
@@ -1267,21 +1327,23 @@ class ZfComplement_DataTable_Element
         return $this->_view;
     }
 
-
     /**
      * Instantiate a decorator based on class name or class name fragment
      *
-     * @param  string $name
+     * @param  string     $name
      * @param  null|array $options
+     *
      * @return Zend_DataTable_Decorator_Interface
      */
-    protected function _getDecorator($name, $options)
+    protected function _getDecorator ( $name , $options )
     {
-        $class = $this->getPluginLoader(self::DECORATOR)->load($name);
-        if (null === $options) {
+        $class = $this->getPluginLoader ( self::DECORATOR )->load ( $name );
+        if ( null === $options )
+        {
             $decorator = new $class;
-        } else {
-            $decorator = new $class($options);
+        } else
+        {
+            $decorator = new $class( $options );
         }
 
         return $decorator;
@@ -1291,41 +1353,50 @@ class ZfComplement_DataTable_Element
      * Add a decorator for rendering the element
      *
      * @param  string|Zend_DataTable_Decorator_Interface $decorator
-     * @param  array|Zend_Config $options Options with which to initialize decorator
+     * @param  array|Zend_Config                         $options Options with which to initialize decorator
+     *
      * @return Zend_Form_Element
      */
-    public function addDecorator($decorator, $options = null)
+    public function addDecorator ( $decorator , $options = null )
     {
-        if ($decorator instanceof Zend_DataTable_Decorator_Interface) {
-            $name = get_class($decorator);
-        } elseif (is_string($decorator)) {
-            $name      = $decorator;
-            $decorator = array(
-                'decorator' => $name,
-                'options'   => $options,
+        if ( $decorator instanceof Zend_DataTable_Decorator_Interface )
+        {
+            $name = get_class ( $decorator );
+        } elseif ( is_string ( $decorator ) )
+        {
+            $name = $decorator;
+            $decorator = array (
+                'decorator' => $name ,
+                'options'   => $options ,
             );
-        } elseif (is_array($decorator)) {
-            foreach ($decorator as $name => $spec) {
+        } elseif ( is_array ( $decorator ) )
+        {
+            foreach ( $decorator as $name => $spec )
+            {
                 break;
             }
-            if (is_numeric($name)) {
+            if ( is_numeric ( $name ) )
+            {
                 require_once 'ZfComplement/DateTable/Exception.php';
-                throw new Zend_Form_Exception('Invalid alias provided to addDecorator; must be alphanumeric string');
+                throw new Zend_Form_Exception( 'Invalid alias provided to addDecorator; must be alphanumeric string' );
             }
-            if (is_string($spec)) {
-                $decorator = array(
-                    'decorator' => $spec,
-                    'options'   => $options,
+            if ( is_string ( $spec ) )
+            {
+                $decorator = array (
+                    'decorator' => $spec ,
+                    'options'   => $options ,
                 );
-            } elseif ($spec instanceof Zend_DataTable_Decorator_Interface) {
+            } elseif ( $spec instanceof Zend_DataTable_Decorator_Interface )
+            {
                 $decorator = $spec;
             }
-        } else {
+        } else
+        {
             require_once 'ZfComplement/DateTable/Exception.php';
-            throw new Zend_Form_Exception('Invalid decorator provided to addDecorator; must be string or Zend_DataTable_Decorator_Interface');
+            throw new Zend_Form_Exception( 'Invalid decorator provided to addDecorator; must be string or Zend_DataTable_Decorator_Interface' );
         }
 
-        $this->_decorators[$name] = $decorator;
+        $this->_decorators[ $name ] = $decorator;
 
         return $this;
     }
@@ -1334,43 +1405,55 @@ class ZfComplement_DataTable_Element
      * Add many decorators at once
      *
      * @param  array $decorators
+     *
      * @return Zend_Form_Element
      */
-    public function addDecorators(array $decorators)
+    public function addDecorators ( array $decorators )
     {
-        foreach ($decorators as $decoratorName => $decoratorInfo) {
-            if (is_string($decoratorInfo) ||
-                $decoratorInfo instanceof Zend_DataTable_Decorator_Interface) {
-                if (!is_numeric($decoratorName)) {
-                    $this->addDecorator(array($decoratorName => $decoratorInfo));
-                } else {
-                    $this->addDecorator($decoratorInfo);
+        foreach ( $decorators as $decoratorName => $decoratorInfo )
+        {
+            if ( is_string ( $decoratorInfo )
+                 || $decoratorInfo instanceof Zend_DataTable_Decorator_Interface
+            )
+            {
+                if ( ! is_numeric ( $decoratorName ) )
+                {
+                    $this->addDecorator ( array ( $decoratorName => $decoratorInfo ) );
+                } else
+                {
+                    $this->addDecorator ( $decoratorInfo );
                 }
-            } elseif (is_array($decoratorInfo)) {
-                $argc    = count($decoratorInfo);
-                $options = array();
-                if (isset($decoratorInfo['decorator'])) {
-                    $decorator = $decoratorInfo['decorator'];
-                    if (isset($decoratorInfo['options'])) {
-                        $options = $decoratorInfo['options'];
+            } elseif ( is_array ( $decoratorInfo ) )
+            {
+                $argc = count ( $decoratorInfo );
+                $options = array ();
+                if ( isset( $decoratorInfo[ 'decorator' ] ) )
+                {
+                    $decorator = $decoratorInfo[ 'decorator' ];
+                    if ( isset( $decoratorInfo[ 'options' ] ) )
+                    {
+                        $options = $decoratorInfo[ 'options' ];
                     }
-                    $this->addDecorator($decorator, $options);
-                } else {
-                    switch (true) {
-                        case (0 == $argc):
+                    $this->addDecorator ( $decorator , $options );
+                } else
+                {
+                    switch ( true )
+                    {
+                        case ( 0 == $argc ):
                             break;
-                        case (1 <= $argc):
-                            $decorator  = array_shift($decoratorInfo);
-                        case (2 <= $argc):
-                            $options = array_shift($decoratorInfo);
+                        case ( 1 <= $argc ):
+                            $decorator = array_shift ( $decoratorInfo );
+                        case ( 2 <= $argc ):
+                            $options = array_shift ( $decoratorInfo );
                         default:
-                            $this->addDecorator($decorator, $options);
+                            $this->addDecorator ( $decorator , $options );
                             break;
                     }
                 }
-            } else {
+            } else
+            {
                 require_once 'ZfComplement/DateTable/Exception.php';
-                throw new Zend_Form_Exception('Invalid decorator passed to addDecorators()');
+                throw new Zend_Form_Exception( 'Invalid decorator passed to addDecorators()' );
             }
         }
 
@@ -1381,44 +1464,55 @@ class ZfComplement_DataTable_Element
      * Overwrite all decorators
      *
      * @param  array $decorators
+     *
      * @return Zend_Form_Element
      */
-    public function setDecorators(array $decorators)
+    public function setDecorators ( array $decorators )
     {
-        $this->clearDecorators();
-        return $this->addDecorators($decorators);
+        $this->clearDecorators ();
+
+        return $this->addDecorators ( $decorators );
     }
 
     /**
      * Retrieve a registered decorator
      *
      * @param  string $name
+     *
      * @return false|Zend_DataTable_Decorator_Abstract
      */
-    public function getDecorator($name)
+    public function getDecorator ( $name )
     {
-        if (!isset($this->_decorators[$name])) {
-            $len = strlen($name);
-            foreach ($this->_decorators as $localName => $decorator) {
-                if ($len > strlen($localName)) {
+        if ( ! isset( $this->_decorators[ $name ] ) )
+        {
+            $len = strlen ( $name );
+            foreach ( $this->_decorators as $localName => $decorator )
+            {
+                if ( $len > strlen ( $localName ) )
+                {
                     continue;
                 }
 
-                if (0 === substr_compare($localName, $name, -$len, $len, true)) {
-                    if (is_array($decorator)) {
-                        return $this->_loadDecorator($decorator, $localName);
+                if ( 0 === substr_compare ( $localName , $name , - $len , $len , true ) )
+                {
+                    if ( is_array ( $decorator ) )
+                    {
+                        return $this->_loadDecorator ( $decorator , $localName );
                     }
+
                     return $decorator;
                 }
             }
+
             return false;
         }
 
-        if (is_array($this->_decorators[$name])) {
-            return $this->_loadDecorator($this->_decorators[$name], $name);
+        if ( is_array ( $this->_decorators[ $name ] ) )
+        {
+            return $this->_loadDecorator ( $this->_decorators[ $name ] , $name );
         }
 
-        return $this->_decorators[$name];
+        return $this->_decorators[ $name ];
     }
 
     /**
@@ -1426,13 +1520,16 @@ class ZfComplement_DataTable_Element
      *
      * @return array
      */
-    public function getDecorators()
+    public function getDecorators ()
     {
-        foreach ($this->_decorators as $key => $value) {
-            if (is_array($value)) {
-                $this->_loadDecorator($value, $key);
+        foreach ( $this->_decorators as $key => $value )
+        {
+            if ( is_array ( $value ) )
+            {
+                $this->_loadDecorator ( $value , $key );
             }
         }
+
         return $this->_decorators;
     }
 
@@ -1440,20 +1537,26 @@ class ZfComplement_DataTable_Element
      * Remove a single decorator
      *
      * @param  string $name
+     *
      * @return Zend_Form_Element
      */
-    public function removeDecorator($name)
+    public function removeDecorator ( $name )
     {
-        if (isset($this->_decorators[$name])) {
-            unset($this->_decorators[$name]);
-        } else {
-            $len = strlen($name);
-            foreach (array_keys($this->_decorators) as $decorator) {
-                if ($len > strlen($decorator)) {
+        if ( isset( $this->_decorators[ $name ] ) )
+        {
+            unset( $this->_decorators[ $name ] );
+        } else
+        {
+            $len = strlen ( $name );
+            foreach ( array_keys ( $this->_decorators ) as $decorator )
+            {
+                if ( $len > strlen ( $decorator ) )
+                {
                     continue;
                 }
-                if (0 === substr_compare($decorator, $name, -$len, $len, true)) {
-                    unset($this->_decorators[$decorator]);
+                if ( 0 === substr_compare ( $decorator , $name , - $len , $len , true ) )
+                {
+                    unset( $this->_decorators[ $decorator ] );
                     break;
                 }
             }
@@ -1467,9 +1570,10 @@ class ZfComplement_DataTable_Element
      *
      * @return Zend_Form_Element
      */
-    public function clearDecorators()
+    public function clearDecorators ()
     {
-        $this->_decorators = array();
+        $this->_decorators = array ();
+
         return $this;
     }
 
@@ -1477,23 +1581,28 @@ class ZfComplement_DataTable_Element
      * Render form element
      *
      * @param  Zend_View_Interface $view
+     *
      * @return string
      */
-    public function render(Zend_View_Interface $view = null)
+    public function render ( Zend_View_Interface $view = null )
     {
-        if ($this->_isPartialRendering) {
+        if ( $this->_isPartialRendering )
+        {
             return '';
         }
 
-        if (null !== $view) {
-            $this->setView($view);
+        if ( null !== $view )
+        {
+            $this->setView ( $view );
         }
 
         $content = '';
-        foreach ($this->getDecorators() as $decorator) {
-            $decorator->setElement($this);
-            $content = $decorator->render($content);
+        foreach ( $this->getDecorators () as $decorator )
+        {
+            $decorator->setElement ( $this );
+            $content = $decorator->render ( $content );
         }
+
         return $content;
     }
 
@@ -1511,8 +1620,7 @@ class ZfComplement_DataTable_Element
             $return = $this->render ();
 
             return $return;
-        }
-        catch ( Exception $e )
+        } catch ( Exception $e )
         {
             trigger_error ( $e->getMessage () , E_USER_WARNING );
 
@@ -1524,12 +1632,13 @@ class ZfComplement_DataTable_Element
      * Lazy-load a filter
      *
      * @param  array $filter
+     *
      * @return Zend_Filter_Interface
      */
     protected function _loadFilter ( array $filter )
     {
         $origName = $filter[ 'filter' ];
-        $name     = $this->getPluginLoader ( self::FILTER )->load ( $filter[ 'filter' ] );
+        $name = $this->getPluginLoader ( self::FILTER )->load ( $filter[ 'filter' ] );
 
         if ( array_key_exists ( $name , $this->_filters ) )
         {
@@ -1554,9 +1663,9 @@ class ZfComplement_DataTable_Element
 
         if ( $origName != $name )
         {
-            $filterNames     = array_keys ( $this->_filters );
-            $order           = array_flip ( $filterNames );
-            $order[ $name ]  = $order[ $origName ];
+            $filterNames = array_keys ( $this->_filters );
+            $order = array_flip ( $filterNames );
+            $order[ $name ] = $order[ $origName ];
             $filtersExchange = array ();
             unset( $order[ $origName ] );
             asort ( $order );
@@ -1582,35 +1691,41 @@ class ZfComplement_DataTable_Element
      * Lazy-load a decorator
      *
      * @param  array $decorator Decorator type and options
-     * @param  mixed $name Decorator name or alias
+     * @param  mixed $name      Decorator name or alias
+     *
      * @return Zend_DataTable_Decorator_Interface
      */
-    protected function _loadDecorator(array $decorator, $name)
+    protected function _loadDecorator ( array $decorator , $name )
     {
         $sameName = false;
-        if ($name == $decorator['decorator']) {
+        if ( $name == $decorator[ 'decorator' ] )
+        {
             $sameName = true;
         }
 
-        $instance = $this->_getDecorator($decorator['decorator'], $decorator['options']);
-        if ($sameName) {
-            $newName            = get_class($instance);
-            $decoratorNames     = array_keys($this->_decorators);
-            $order              = array_flip($decoratorNames);
-            $order[$newName]    = $order[$name];
-            $decoratorsExchange = array();
-            unset($order[$name]);
-            asort($order);
-            foreach ($order as $key => $index) {
-                if ($key == $newName) {
-                    $decoratorsExchange[$key] = $instance;
+        $instance = $this->_getDecorator ( $decorator[ 'decorator' ] , $decorator[ 'options' ] );
+        if ( $sameName )
+        {
+            $newName = get_class ( $instance );
+            $decoratorNames = array_keys ( $this->_decorators );
+            $order = array_flip ( $decoratorNames );
+            $order[ $newName ] = $order[ $name ];
+            $decoratorsExchange = array ();
+            unset( $order[ $name ] );
+            asort ( $order );
+            foreach ( $order as $key => $index )
+            {
+                if ( $key == $newName )
+                {
+                    $decoratorsExchange[ $key ] = $instance;
                     continue;
                 }
-                $decoratorsExchange[$key] = $this->_decorators[$key];
+                $decoratorsExchange[ $key ] = $this->_decorators[ $key ];
             }
             $this->_decorators = $decoratorsExchange;
-        } else {
-            $this->_decorators[$name] = $instance;
+        } else
+        {
+            $this->_decorators[ $name ] = $instance;
         }
 
         return $instance;
