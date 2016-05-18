@@ -38,7 +38,7 @@ require_once 'Zend/View/Helper/FormElement.php';
 class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
 {
     protected $_attribs;
-    protected $_button=true;
+    protected $_button = true;
     const BOOTBOX = '/components/bootbox/bootbox.js';
 
     /**
@@ -56,44 +56,40 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
      *
      * @return string The element XHTML.
      */
-    public function DataTableButton ( $name , $label , $value = null , $attribs = null , $order = null )
+    public function DataTableButton ( )
     {
         $base = $this->view->baseUrl ();
         $this->jquery = $this->view->JQuery ();
         $this->jquery->enable ();
         $this->jquery->addJavascriptFile ( $base . self::BOOTBOX );
 
-        $info = $this->_getInfo ( $name , $value , $attribs );
-        extract ( $info ); // name, value, attribs, options, disable
-
-        $this->setId($id)
-            ->setValue($value);
-        $this->_attribs = $attribs;
         $modal = '';
 
-        if ( isset( $options[ 'modal' ] ) )
+        if ( $this->hasOption ( 'modal' ) )
         {
-            $modal = ' modal="' . $options[ 'modal' ] . '"';
+            $modal = ' modal="' . $this->getOption ( 'modal' ) . '"';
         }
 
-        $url = isset( $options [ "url" ] ) && is_array ( $options [ "url" ] )
-            ? $options [ "url" ] : array ();
+        $url = $this->hasOption ( "url" ) && is_array ( $this->getOption ( "url" ) )
+            ? $this->getOption ( "url" ) : array ();
+
         $url = $this->view->url ( $url );
-        $this->xhtml = '<th'
-                 . ' id="' . $this->view->escape ( $id ) . '"'
+        $xhtml = '<th'
+                 . ' id="' . $this->getId() . '"'
                  . ' url="' . $url . '"'
                  . $modal
-                 . ' name="' . $this->view->escape ( $name ) . '" >'
-                 . $label
+                 . ' name="' . $this->getName() . '" >'
+                 . $this->getLabel()
                  . '</th>';
 
+        $this->setContent ( $xhtml );
 
         return $this;
     }
 
     /**
      * @param                                  $id
-     * @param  ZfC_DataTable_Create[] $content
+     * @param  ZfC_DataTable_Create[]          $content
      */
     public function createJscript ( $attribs )
     {

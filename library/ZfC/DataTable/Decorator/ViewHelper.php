@@ -154,21 +154,14 @@ class ZfC_DataTable_Decorator_ViewHelper extends ZfC_DataTable_Decorator_Abstrac
         }
 
         $helper        = $this->getHelper();
-        $value         = $this->getValue($element);
-        $attribs       = $this->getElementAttribs();
-        $name          = $element->getFullyQualifiedName();
-        $id            = $element->getId();
-        $label         = $element->getLabel();
-        $order         = $element->getOrder();
-        $attribs['id'] = $id;
 
         $helperObject  = $view->getHelper($helper);
         if (method_exists($helperObject, 'setTranslator')) {
             $helperObject->setTranslator($element->getTranslator());
         }
 
-
-        return $view->$helper($name, $label, $value, $attribs, $order, $element->options);
+        $helperObject->populate($helper, $element);
+        return $view->$helper();
 
     }
 }

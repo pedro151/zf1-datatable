@@ -33,18 +33,14 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
      *
      * @return string The element XHTML.
      */
-    public function DataTableText($name, $label, $value = null, $attribs = null, $order = null)
+    public function DataTableText()
     {
-        $info = $this->_getInfo($name, $value, $attribs);
-        extract($info); // name, value, attribs, options, disable
-        $this->setId($id)
-            ->setValue($value);
 
         $xhtml = '<th'
             . ' id="' . $this->getId() . '"'
-            . $this->_htmlAttribs($attribs)
-            . ' name="' . $this->view->escape($name) . '" >'
-            . $this->view->escape($label)
+           // . $this->_htmlAttribs($attribs)
+            . ' name="' . $this->getName() . '" >'
+            . $this->getLabel()
             . '</th>';
         $this->setContent($xhtml);
         return $this;
