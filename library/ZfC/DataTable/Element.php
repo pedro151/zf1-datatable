@@ -82,6 +82,8 @@ class ZfC_DataTable_Element
      */
     protected $_name;
 
+    protected $_id;
+
     /**
      * Order of element
      *
@@ -180,7 +182,7 @@ class ZfC_DataTable_Element
         if ( null === $this->getName () )
         {
             require_once 'ZfC/DataTable/Exception.php';
-            throw new ZfC_DataTable_Exception( 'Zend_Form_Element requires each element to have a name' );
+            throw new ZfC_DataTable_Exception( 'ZfC_DataTable_Element requires each element to have a name' );
         }
 
         /**

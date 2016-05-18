@@ -2235,7 +2235,7 @@ class ZfC_DataTable implements Iterator , Countable
                 } elseif ( isset( $items[ $order ] ) && $items[ $order ] !== $key )
                 {
                     throw new ZfC_DataTable_Exception(
-                        'Form elements ' .
+                        'datatable elements ' .
                         $items[ $order ] . ' and ' . $key .
                         ' have the same order (' .
                         $order . ') - ' .

@@ -35,10 +35,9 @@ require_once 'Zend/View/Helper/FormElement.php';
  * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTable
+class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
 {
     protected $_attribs;
-    protected $_id;
     protected $_button=true;
     const BOOTBOX = '/components/bootbox/bootbox.js';
 
@@ -67,7 +66,8 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTable
         $info = $this->_getInfo ( $name , $value , $attribs );
         extract ( $info ); // name, value, attribs, options, disable
 
-        $this->_id = $id;
+        $this->setId($id)
+            ->setValue($value);
         $this->_attribs = $attribs;
         $modal = '';
 
