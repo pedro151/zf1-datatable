@@ -69,7 +69,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         $this->_attribs = $attribs;
 
 
-        $this->createJscript($content);
+        //$this->createJscript($content);
 
         if (!empty($id)) {
             $id = ' id="' . $this->view->escape($id) . '"';
@@ -107,10 +107,9 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         $xhtml = '';
         if (false !== $content) {
             foreach ($content as $contentCreate) {
-                $xhtml .= $contentCreate->getContent();
+                $xhtml .= $contentCreate;
             }
         }
-
         return $xhtml;
     }
 

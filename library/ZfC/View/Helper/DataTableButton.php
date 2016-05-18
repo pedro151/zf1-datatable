@@ -84,7 +84,7 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
 
         $this->setContent ( $xhtml );
 
-        return $this;
+        return $xhtml;
     }
 
     /**

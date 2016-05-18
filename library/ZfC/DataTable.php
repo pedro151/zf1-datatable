@@ -1752,7 +1752,7 @@ class ZfC_DataTable implements Iterator , Countable
 
         $content = '';
         /** @var ZfC_DataTable_Decorator_Abstract $decorator */
-        foreach ( $this->getDecorators () as $decorator )
+        foreach ( $this->getDecorators () as $key => $decorator )
         {
             $decorator->setElement ( $this );
             $content = $decorator->render ( $content );

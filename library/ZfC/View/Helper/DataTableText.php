@@ -43,6 +43,6 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
             . $this->getLabel()
             . '</th>';
         $this->setContent($xhtml);
-        return $this;
+        return $xhtml;
     }
 }

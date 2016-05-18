@@ -30,7 +30,6 @@ class ZfC_DataTable_Decorator_DataTableElements extends ZfC_DataTable_Decorator_
             }
 
             $items[] = $item->render();
-
         }
 
         return $items;
