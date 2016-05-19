@@ -1478,10 +1478,10 @@ class ZfC_DataTable_Element
             $this->setView($view);
         }
 
-        $content = '';
+        $content=array('xhtml'=>'','paramJs'=>array());
         foreach ($this->getDecorators() as $decorator) {
             $decorator->setElement($this);
-            $content = $decorator->render($content);
+            $content = $decorator->render ( $content ) + $content;
         }
         return $content;
     }

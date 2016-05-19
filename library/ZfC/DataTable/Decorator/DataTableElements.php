@@ -15,7 +15,7 @@ class ZfC_DataTable_Decorator_DataTableElements extends ZfC_DataTable_Decorator_
     {
         $datatable    = $this->getElement();
         if (!$datatable instanceof ZfC_DataTable) {
-            return $content;
+            return $content['xhtml'];
         }
 
         $translator     = $datatable->getTranslator();

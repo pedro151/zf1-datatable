@@ -61,13 +61,10 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      *
      * @return string
      */
-    public function DataTable($name, $attribs = null, $content = false)
+    public function DataTable($name, $attribs = null, $content = false )
     {
         $info = $this->_getInfo($name, $attribs);
         extract($info);
-        $this->_id = $id;
-        $this->_attribs = $attribs;
-
 
         //$this->createJscript($content);
 
@@ -96,7 +93,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         $xhtml .= $this->createContent($content);
         $xhtml .= '</tr></thead></table>';
 
-        return $xhtml;
+        return array('xhtml' => $xhtml);
     }
 
     /**
@@ -106,8 +103,10 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
     {
         $xhtml = '';
         if (false !== $content) {
-            foreach ($content as $contentCreate) {
-                $xhtml .= $contentCreate;
+            foreach ($content as $key => $contentCreate) {
+                if(is_array($contentCreate) && array_key_exists('xhtml', $contentCreate)){
+                    $xhtml .= $contentCreate['xhtml'];
+                }
             }
         }
         return $xhtml;
@@ -242,7 +241,6 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
                     "type" => $this->getType()
                 );
             }
-
         }
 
         if (!is_array($content)) {
@@ -259,7 +257,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
             }
 
             $paramsJs["columns"][$key]["name"] = $objCreate->getId();
-            if ($this->hasAjax() ) {
+            if ($this->hasAjax()) {
                 $paramsJs["columns"][$key]["data"] = $objCreate->getId();
             }
 

@@ -9,6 +9,11 @@ class ZfC_DataTable_Decorator_ViewHelper extends ZfC_DataTable_Decorator_Abstrac
     protected $_helper;
 
     /**
+     * @var ZfC_View_Helper_DataTableElement
+     */
+    protected $helperObject;
+
+    /**
      * Set view helper to use when rendering
      *
      * @param  string $helper
@@ -16,7 +21,7 @@ class ZfC_DataTable_Decorator_ViewHelper extends ZfC_DataTable_Decorator_Abstrac
      */
     public function setHelper($helper)
     {
-        $this->_helper = (string) $helper;
+        $this->_helper = (string)$helper;
         return $this;
     }
 
@@ -71,7 +76,7 @@ class ZfC_DataTable_Decorator_ViewHelper extends ZfC_DataTable_Decorator_Abstrac
             return $name;
         }
 
-       
+
         if ($element->isArray()) {
             $name .= '[]';
         }
@@ -132,6 +137,29 @@ class ZfC_DataTable_Decorator_ViewHelper extends ZfC_DataTable_Decorator_Abstrac
         return $element->getValue();
     }
 
+    protected function _populate($element)
+    {
+
+        $view = $element->getView();
+        if (null === $view) {
+            require_once 'ZfC/DataTable/Decorator/Exception.php';
+            throw new ZfC_DataTable_Decorator_Exception('ViewHelper decorator cannot render without a registered view object');
+        }
+
+        if (!$this->helperObject) {
+            $helper = $this->getHelper();
+
+            $this->helperObject = $view->getHelper($helper);
+            if (method_exists($this->helperObject, 'setTranslator')) {
+                $this->helperObject->setTranslator($element->getTranslator());
+            }
+
+            $this->helperObject->populate($helper, $element);
+        }
+
+        return $this->helperObject;
+    }
+
     /**
      * Render an element using a view helper
      *
@@ -146,22 +174,11 @@ class ZfC_DataTable_Decorator_ViewHelper extends ZfC_DataTable_Decorator_Abstrac
     public function render($content)
     {
         $element = $this->getElement();
-
+        $this->_populate($element);
         $view = $element->getView();
-        if (null === $view) {
-            require_once 'ZfC/DataTable/Decorator/Exception.php';
-            throw new ZfC_DataTable_Decorator_Exception('ViewHelper decorator cannot render without a registered view object');
-        }
+        $helper = $this->getHelper();
 
-        $helper        = $this->getHelper();
-
-        $helperObject  = $view->getHelper($helper);
-        if (method_exists($helperObject, 'setTranslator')) {
-            $helperObject->setTranslator($element->getTranslator());
-        }
-
-        $helperObject->populate($helper, $element);
         return $view->$helper();
-
     }
+
 }

@@ -16,9 +16,9 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @param  string $helper
      * @return Zend_Form_Decorator_Form
      */
-    public function setHelper ( $helper )
+    public function setHelper($helper)
     {
-        $this->_helper = (string) $helper;
+        $this->_helper = (string)$helper;
 
         return $this;
     }
@@ -28,12 +28,11 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      *
      * @return string
      */
-    public function getHelper ()
+    public function getHelper()
     {
-        if ( null !== ( $helper = $this->getOption ( 'helper' ) ) )
-        {
-            $this->setHelper ( $helper );
-            $this->removeOption ( 'helper' );
+        if (null !== ($helper = $this->getOption('helper'))) {
+            $this->setHelper($helper);
+            $this->removeOption('helper');
         }
 
         return $this->_helper;
@@ -48,23 +47,22 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @param  string $content
      * @return string
      */
-    public function render ( $content )
+    public function render($content)
     {
-        $datatable = $this->getElement ();
-        $view      = $datatable->getView ();
-        if ( null === $view )
-        {
+        $datatable = $this->getElement();
+        $view = $datatable->getView();
+        if (null === $view) {
             return $content;
         }
 
 
-        $helper            = $this->_helper;
-        $attribs           = $this->getOptions ();
-        $name              = $datatable->getFullyQualifiedName ();
-        $attribs[ 'id' ]   = $datatable->getId ();
-        $attribs[ 'ajax' ] = $datatable->getAjax ();
+        $helper = $this->_helper;
+        $attribs = $this->getOptions();
+        $name = $datatable->getFullyQualifiedName();
+        $attribs['id'] = $datatable->getId();
+        $attribs['ajax'] = $datatable->getAjax();
 
-        return $view->$helper( $name , $attribs , $content );
+        return $view->$helper($name, $attribs, $content);
     }
 
     /**
@@ -77,7 +75,7 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      *
      * @var array
      */
-    protected $_options = array ();
+    protected $_options = array();
 
     /**
      * Separator between new content and old
@@ -92,14 +90,12 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @param  array|Zend_Config $options
      * @return void
      */
-    public function __construct ( $options = null )
+    public function __construct($options = null)
     {
-        if ( is_array ( $options ) )
-        {
-            $this->setOptions ( $options );
-        } elseif ( $options instanceof Zend_Config )
-        {
-            $this->setConfig ( $options );
+        if (is_array($options)) {
+            $this->setOptions($options);
+        } elseif ($options instanceof Zend_Config) {
+            $this->setConfig($options);
         }
     }
 
@@ -109,7 +105,7 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @param  array $options
      * @return Zend_Form_Decorator_Abstract
      */
-    public function setOptions ( array $options )
+    public function setOptions(array $options)
     {
         $this->_options = $options;
 
@@ -121,22 +117,18 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      *
      * @return array
      */
-    public function getOptions ()
+    public function getOptions()
     {
-        if ( null !== ( $element = $this->getElement () ) )
-        {
-            if ( $element instanceof ZfC_DataTable )
-            {
-                foreach ( $element->getAttribs () as $key => $value )
-                {
-                    $this->setOption ( $key , $value );
+        if (null !== ($element = $this->getElement())) {
+            if ($element instanceof ZfC_DataTable) {
+                foreach ($element->getAttribs() as $key => $value) {
+                    $this->setOption($key, $value);
                 }
             }
         }
 
-        if ( isset( $this->_options[ 'method' ] ) )
-        {
-            $this->_options[ 'method' ] = strtolower ( $this->_options[ 'method' ] );
+        if (isset($this->_options['method'])) {
+            $this->_options['method'] = strtolower($this->_options['method']);
         }
 
         return $this->_options;
@@ -148,21 +140,21 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @param  Zend_Config $config
      * @return Zend_Form_Decorator_Abstract
      */
-    public function setConfig ( Zend_Config $config )
+    public function setConfig(Zend_Config $config)
     {
-        return $this->setOptions ( $config->toArray () );
+        return $this->setOptions($config->toArray());
     }
 
     /**
      * Set option
      *
      * @param  string $key
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return Zend_Form_Decorator_Abstract
      */
-    public function setOption ( $key , $value )
+    public function setOption($key, $value)
     {
-        $this->_options[ (string) $key ] = $value;
+        $this->_options[(string)$key] = $value;
 
         return $this;
     }
@@ -173,12 +165,11 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @param  string $key
      * @return mixed
      */
-    public function getOption ( $key )
+    public function getOption($key)
     {
-        $key = (string) $key;
-        if ( isset( $this->_options[ $key ] ) )
-        {
-            return $this->_options[ $key ];
+        $key = (string)$key;
+        if (isset($this->_options[$key])) {
+            return $this->_options[$key];
         }
 
         return null;
@@ -191,11 +182,10 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @param mixed $key
      * @return void
      */
-    public function removeOption ( $key )
+    public function removeOption($key)
     {
-        if ( null !== $this->getOption ( $key ) )
-        {
-            unset( $this->_options[ $key ] );
+        if (null !== $this->getOption($key)) {
+            unset($this->_options[$key]);
 
             return true;
         }
@@ -208,9 +198,9 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      *
      * @return Zend_Form_Decorator_Abstract
      */
-    public function clearOptions ()
+    public function clearOptions()
     {
-        $this->_options = array ();
+        $this->_options = array();
 
         return $this;
     }
@@ -222,14 +212,13 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      * @return Zend_Form_Decorator_Abstract
      * @throws Zend_Form_Decorator_Exception on invalid element type
      */
-    public function setElement ( $element )
+    public function setElement($element)
     {
-        if ( ( !$element instanceof ZfC_DataTable_Element )
-            && ( !$element instanceof ZfC_DataTable )
-        )
-        {
+        if ((!$element instanceof ZfC_DataTable_Element)
+            && (!$element instanceof ZfC_DataTable)
+        ) {
             require_once 'Zend/Form/Decorator/Exception.php';
-            throw new Zend_Form_Decorator_Exception( 'Invalid element type passed to decorator' );
+            throw new Zend_Form_Decorator_Exception('Invalid element type passed to decorator');
         }
 
         $this->_element = $element;
@@ -242,7 +231,7 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      *
      * @return Zend_Form_Element|Zend_Form
      */
-    public function getElement ()
+    public function getElement()
     {
         return $this->_element;
     }
@@ -253,13 +242,12 @@ class ZfC_DataTable_Decorator_DataTable extends ZfC_DataTable_Decorator_Abstract
      *
      * @return string
      */
-    public function getSeparator ()
+    public function getSeparator()
     {
         $separator = $this->_separator;
-        if ( null !== ( $separatorOpt = $this->getOption ( 'separator' ) ) )
-        {
-            $separator = $this->_separator = (string) $separatorOpt;
-            $this->removeOption ( 'separator' );
+        if (null !== ($separatorOpt = $this->getOption('separator'))) {
+            $separator = $this->_separator = (string)$separatorOpt;
+            $this->removeOption('separator');
         }
 
         return $separator;

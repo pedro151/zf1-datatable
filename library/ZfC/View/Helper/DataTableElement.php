@@ -26,7 +26,7 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
 
     protected $_value;
 
-    protected $_js;
+    protected $_js = array();
 
     protected $_content;
 
@@ -283,7 +283,7 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
         $this->_js = $js;
     }
 
-    public function getJscript ()
+    public function attrJS ()
     {
         return $this->_js;
     }

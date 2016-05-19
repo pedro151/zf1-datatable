@@ -35,7 +35,7 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
      */
     public function DataTableText()
     {
-
+        $paramJSDataTable=array();
         $xhtml = '<th'
             . ' id="' . $this->getId() . '"'
            // . $this->_htmlAttribs($attribs)
@@ -43,6 +43,6 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
             . $this->getLabel()
             . '</th>';
         $this->setContent($xhtml);
-        return $xhtml;
+        return array('xhtml'=>$xhtml,'paramJs'=>$paramJSDataTable);
     }
 }
