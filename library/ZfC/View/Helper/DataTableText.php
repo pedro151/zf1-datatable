@@ -35,14 +35,22 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
      */
     public function DataTableText()
     {
-        $paramJSDataTable=array();
+        $paramJSDataTable = array();
         $xhtml = '<th'
             . ' id="' . $this->getId() . '"'
-           // . $this->_htmlAttribs($attribs)
+            // . $this->_htmlAttribs($attribs)
             . ' name="' . $this->getName() . '" >'
             . $this->getLabel()
             . '</th>';
         $this->setContent($xhtml);
-        return array('xhtml'=>$xhtml,'paramJs'=>$paramJSDataTable);
+        return array('xhtml' => $xhtml, 'paramJs' => $this->attrJS());
+    }
+
+    public function attrJS()
+    {
+        return array(
+            "name" => $this->getId(),
+            "data" => $this->getId()
+        );
     }
 }

@@ -65,8 +65,8 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
     {
         $info = $this->_getInfo($name, $attribs);
         extract($info);
-
-        //$this->createJscript($content);
+        $this->_id=$id;
+        $this->createJscript($content);
 
         if (!empty($id)) {
             $id = ' id="' . $this->view->escape($id) . '"';
@@ -215,7 +215,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         }
 
         $this->jquery->addOnLoad($js);
-        $this->buttomJs($content);
+        //$this->buttomJs($content);
     }
 
     /**
@@ -230,7 +230,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
             "ordering" => false
         );
 
-        $paramsJs = array_merge($paramsJs, $this->_attribs);
+        //$paramsJs = array_merge($paramsJs, $this->_attribs);
 
         if ($this->hasAjax()) {
             $paramsJs["processing"] = true;
@@ -248,48 +248,31 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         }
 
         foreach ($content as $key => $objCreate) {
-            if (!$objCreate->isVisible()) {
-                $paramsJs["columnDefs"][] = array(
-                    "targets" => array($key),
-                    "visible" => false,
-                    "searchable" => false
-                );
+//            if (!$objCreate->isVisible()) {
+//                $paramsJs["columnDefs"][] = array(
+//                    "targets" => array($key),
+//                    "visible" => false,
+//                    "searchable" => false
+//                );
+//            }
+            if(is_array($objCreate) && array_key_exists('paramJs', $objCreate)) {
+                $paramsJs["columns"][$key] = $objCreate["paramJs"];
             }
+//            if ($this->hasAjax()) {
+//                $paramsJs["columns"][$key]["data"] = $objCreate->getId();
+//            }
 
-            $paramsJs["columns"][$key]["name"] = $objCreate->getId();
-            if ($this->hasAjax()) {
-                $paramsJs["columns"][$key]["data"] = $objCreate->getId();
-            }
 
-            if ($objCreate instanceof ZfC_View_Helper_DataTableButton) {
-                $classButtom = $objCreate->hasOption('className')
-                    ? $objCreate->getOption('className') : 'btn-primary';
-                $whidth = $objCreate->hasOption('width')
-                    ? $objCreate->getOption('width') : '5%';
-                $objCreate->setOption('width', $whidth);
-                $paramsJs["columns"][$key]["searchable"] = false;
-                $paramsJs["columns"][$key]["className"] = 'col-button';
-                $paramsJs["columns"][$key]["data"] = null;
-                $paramsJs["columns"][$key]["defaultContent"] = '<span class="btn '
-                    . $objCreate->getId()
-                    . ' '
-                    . $classButtom
-                    . '">' .
-
-                    $objCreate->getValue()
-                    . '</span>';
-            }
-
-            if ($objCreate->hasOptions()) {
-                foreach ($objCreate->getOptions() as $opcao => $value) {
-                    if (($opcao === 'className' && $objCreate instanceof ZfC_View_Helper_DataTableButton)) {
-                        continue;
-                    }
-
-                    $paramsJs["columns"][$key][$opcao] = $value;
-
-                }
-            }
+//            if ($objCreate->hasOptions()) {
+//                foreach ($objCreate->getOptions() as $opcao => $value) {
+//                    if (($opcao === 'className' && $objCreate instanceof ZfC_View_Helper_DataTableButton)) {
+//                        continue;
+//                    }
+//
+//                    $paramsJs["columns"][$key][$opcao] = $value;
+//
+//                }
+//            }
         }
 
         return $paramsJs;
