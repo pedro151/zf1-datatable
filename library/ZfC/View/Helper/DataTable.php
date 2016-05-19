@@ -66,6 +66,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         $info = $this->_getInfo($name, $attribs);
         extract($info);
         $this->_id=$id;
+        $this->_attribs = $attribs;
         $this->createJscript($content);
 
         if (!empty($id)) {
@@ -230,7 +231,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
             "ordering" => false
         );
 
-        //$paramsJs = array_merge($paramsJs, $this->_attribs);
+        $paramsJs = array_merge($paramsJs, $this->_attribs);
 
         if ($this->hasAjax()) {
             $paramsJs["processing"] = true;

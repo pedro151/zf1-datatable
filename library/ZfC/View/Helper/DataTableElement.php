@@ -18,17 +18,11 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
 
     protected $_options;
 
-    protected $_visible;
-
     protected $_name;
 
     protected $_id;
 
     protected $_value;
-
-    protected $_js = array();
-
-    protected $_content;
 
     private $_element;
 
@@ -186,39 +180,6 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
         return $info;
     }
 
-    public function setVisible ( $Visible )
-    {
-        $this->_visible = $Visible;
-    }
-
-    public function getVisible ()
-    {
-        return (bool) $this->_visible;
-    }
-
-    public function isVisible ()
-    {
-        return $this->getVisible ();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContent ()
-    {
-        return $this->_content;
-    }
-
-    /**
-     * @param mixed $content
-     */
-    public function setContent ( $content )
-    {
-        $this->_content = $content;
-
-        return $this;
-    }
-
     public function setOptions ( $options )
     {
         if ( is_null ( $options ) )
@@ -278,19 +239,9 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
         return isset( $this->_options[ $option ] );
     }
 
-    public function setJscript ( $js )
-    {
-        $this->_js = $js;
-    }
-
     public function attrJS ()
     {
-        return $this->_js;
-    }
-
-    public function hasJscript ()
-    {
-        return (bool) $this->_js;
+        return array();
     }
 
     public function getElement ()
