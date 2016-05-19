@@ -258,21 +258,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
             if(is_array($objCreate) && array_key_exists('paramJs', $objCreate)) {
                 $paramsJs["columns"][$key] = $objCreate["paramJs"];
             }
-//            if ($this->hasAjax()) {
-//                $paramsJs["columns"][$key]["data"] = $objCreate->getId();
-//            }
 
-
-//            if ($objCreate->hasOptions()) {
-//                foreach ($objCreate->getOptions() as $opcao => $value) {
-//                    if (($opcao === 'className' && $objCreate instanceof ZfC_View_Helper_DataTableButton)) {
-//                        continue;
-//                    }
-//
-//                    $paramsJs["columns"][$key][$opcao] = $value;
-//
-//                }
-//            }
         }
 
         return $paramsJs;

@@ -15,7 +15,7 @@
  * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
+class ZfC_View_Helper_DataTableHidden extends ZfC_View_Helper_DataTableElement
 {
 
     /**
@@ -33,7 +33,7 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
      *
      * @return string The element XHTML.
      */
-    public function DataTableText()
+    public function DataTableHidden()
     {
         $xhtml = '<th'
             . ' id="' . $this->getId() . '"'
@@ -51,9 +51,12 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
         if ($this->hasOptions()) {
             $return = $this->getOptions();
         }
+
         $return += array(
             "name" => $this->getId(),
-            "data" => $this->getId()
+            "data" => $this->getId(),
+            "visible" => false,
+            "searchable" => false
         );
 
         return $return;
