@@ -2161,4 +2161,43 @@ class ZfC_DataTable implements Iterator, Countable
 
         return Zend_Json::encode($arrValue, false, array('enableJsonExprFinder' => true));
     }
+
+    /**
+     * Set form method
+     *
+     * Only values in {@link $_methods()} allowed
+     *
+     * @param  string $method
+     *
+     * @return ZfComplement_DataTable
+     * @throws ZfComplement_DataTable_Exception
+     */
+    public function setMethod ( $method )
+    {
+        $method = strtolower ( $method );
+        if ( ! in_array ( $method , $this->_methods ) )
+        {
+            require_once 'ZfComplement/DataTable/Exception.php';
+            throw new ZfComplement_DataTable_Exception( sprintf ( '"%s" is an invalid form method' , $method ) );
+        }
+        $this->setAttrib ( 'method' , $method );
+
+        return $this;
+    }
+
+    /**
+     * Retrieve form method
+     *
+     * @return string
+     */
+    public function getMethod ()
+    {
+        if ( null === ( $method = $this->getAttrib ( 'method' ) ) )
+        {
+            $method = self::METHOD_POST;
+            $this->setAttrib ( 'method' , $method );
+        }
+
+        return strtolower ( $method );
+    }
 }

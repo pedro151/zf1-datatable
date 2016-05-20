@@ -458,9 +458,4 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         return $this->_type ? : 'GET';
     }
 
-    public function isButton ()
-    {
-        return $this->_button;
-    }
-
 }
