@@ -3,18 +3,18 @@
 class ZfC_DataTable_Element_Button extends ZfC_DataTable_Element
 {
 
-    public function __construct ( $spec , $options = null, $url='' )
-    {
-        parent::__construct ( $spec , $options );
-        $this->url = $url;
-    }
-
     /**
      * Default form view helper to use for rendering
      *
      * @var string
      */
     public $helper = 'DataTableButton';
+
+    public function __construct ( $spec , $options = null, $url='' )
+    {
+        parent::__construct ( $spec , $options );
+        $this->url = $url;
+    }
 
     public function init ()
     {
