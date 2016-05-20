@@ -8,15 +8,19 @@
  * @author Pedro Alarcao
  * @return Cgmi_DataTable
  */
-class Admin_DataTable_Materia extends ZfComplement_DataTable
+class Default_DataTable_Materia extends ZfC_DataTable
 {
 
     public function init ()
     {
         $this->setName ( 'Materias' );
         $this->setAjax ( 'materia/ajax' );
+        $this->setMethod ( "POST" );
 
-        # CAMPO NOME
+        # CAMPO ID DA MATERIA EM HIDDEN
+        $idmateria = $this->createElement ( 'hidden' , 'idmateria' );
+
+        # CAMPO NOME DA MATERIA
         $no_materia = $this->createElement ( 'text' , 'no_materia' )
                            ->setLabel ( 'Materia' );
 
@@ -24,30 +28,34 @@ class Admin_DataTable_Materia extends ZfComplement_DataTable
         $ds_materia = $this->createElement ( 'text' , 'ds_materia' )
                            ->setLabel ( 'Descrição' );
 
-        # BUTAO DE MODULO
+        # BUTAO DE ENTRAR
         $modulo = $this->createElement ( 'button' , 'modulos' )
                        ->setValue ( "Modulos" )
-                        ->setUrl(array('module'=>'modulo','controller'=>'modulos'))
+                       ->setUrl ( array (
+                           'controller' => 'modulo' ,
+                           'action'     => 'index'
+                       ) )
                        ->setOptions (
-                           array ( 'paramJs' => array ( 'ds_materia' , 'no_materia' ) )
+                           array ( 'paramJs' => array ( 'ds_materia' ) )
                        );
 
         # BUTAO DE LIMPAR
         $remover = $this->createElement ( 'button' , 'remover' )
                         ->setValue ( "Remover" )
                         ->setOptions (
-                            array ( 'paramJs' => array ( 'ds_materia' ) )
+                            array ( 'paramJs' => array ( 'idmateria' ) )
                         )
-                        ->setUrl(array('controller'=>'remover'));
+                        ->setUrl ( array ( 'action' => 'remover' ) );
 
         $this->addElements (
             array (
                 $no_materia ,
                 $ds_materia ,
                 $modulo ,
-                $remover
+                $remover ,
+                $idmateria
             )
         );
-    }
 
+    }
 }
