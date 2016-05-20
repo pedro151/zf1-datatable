@@ -1,14 +1,6 @@
 <?php
 
-/**
- * Base helper for form elements.  Extend this, don't use it on its own.
- *
- * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- */
+
 abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlElement
 {
     /**
@@ -241,7 +233,12 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
 
     public function attrJS ()
     {
-        return array();
+        return array ();
+    }
+
+    public function createJscript ()
+    {
+        return;
     }
 
     public function getElement ()
@@ -287,7 +284,7 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
     {
         $this->_helper = $helper;
         $this->_element = $element;
-        $this->setOptions($element->options);
+        $this->setOptions ( $element->options );
     }
 
     public function getName ()
