@@ -241,6 +241,9 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
         return;
     }
 
+    /**
+     * @return ZfC_DataTable_Element
+     */
     public function getElement ()
     {
         return $this->_element;

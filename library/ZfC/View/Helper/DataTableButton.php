@@ -1,11 +1,40 @@
 <?php
+/**
+ * Zend Framework
+ *
+ * LICENSE
+ *
+ * This source file is subject to the new BSD license that is bundled
+ * with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://framework.zend.com/license/new-bsd
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@zend.com so we can send you a copy immediately.
+ *
+ * @category   Zend
+ * @package    Zend_View
+ * @subpackage Helper
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id$
+ */
 
 
 /**
  * Abstract class for extension
  */
+require_once 'Zend/View/Helper/FormElement.php';
 
-
+/**
+ * Helper to generate a "text" element
+ *
+ * @category   Zend
+ * @package    Zend_View
+ * @subpackage Helper
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ */
 class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
 {
     protected $_attribs;
@@ -42,10 +71,8 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
             $modal = ' modal="' . $this->getOption ( 'modal' ) . '"';
         }
 
-        $url = $this->hasOption ( "url" ) && is_array ( $this->getOption ( "url" ) )
-            ? $this->getOption ( "url" ) : array ();
 
-        $url = $this->view->url ( $url );
+        $url = $this->getElement()->getAttrib( "url" );
         $xhtml = '<th'
                  . ' id="' . $this->getId () . '"'
                  . ' url="' . $url . '"'
@@ -55,9 +82,8 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
                  . '</th>';
 
         return array (
-            'xhtml'   => $xhtml ,
-            'paramJs' => $this->attrJS () ,
-            'JS'      => $this->createJscript ()
+            'xhtml' => $xhtml , 'paramJs' => $this->attrJS () ,
+            'JS'    => $this->createJscript ()
         );
     }
 
