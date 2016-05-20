@@ -265,24 +265,6 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         return $paramsJs;
     }
 
-    /**
-     * insere o conteudo JavaScript de cada elemento na pagina
-     *
-     * @param ZfC_DataTable_Create[] $content
-     */
-    public function buttomJs($content)
-    {
-        if (!is_array($content)) {
-            return;
-        }
-
-        foreach ($content as $key => $objCreate) {
-            if ($objCreate->hasJscript()) {
-                $this->jquery->addOnLoad(str_replace('{main}', $this->_id, $objCreate->getJscript()));
-            }
-        }
-
-    }
 
     /**
      * Converts parameter arguments to an element info array.

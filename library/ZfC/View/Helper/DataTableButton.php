@@ -40,6 +40,7 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
     protected $_attribs;
     protected $_button = true;
     const BOOTBOX = '/components/bootbox/bootbox.js';
+    const BOOTBOX_DEFAULT = "bootbox.setDefaults({ locale: 'br'});";
 
     /**
      * Generates a 'text' element.
@@ -62,9 +63,9 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
         $this->jquery = $this->view->JQuery();
         $this->jquery->enable();
         $this->jquery->addJavascriptFile($base . self::BOOTBOX);
-
+        $this->jquery->addOnLoad(self::BOOTBOX_DEFAULT);
+        var_dump($this->getElementAttribs());
         $modal = '';
-        $paramJSDataTable = array();
         if ($this->hasOption('modal')) {
             $modal = ' modal="' . $this->getOption('modal') . '"';
         }
@@ -127,11 +128,11 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
         if (!isset($attribs['paramJs'])) {
             return;
         }
+
         $json_param = json_encode($attribs['paramJs']);
         $id = $attribs['id'];
 
-        $_js = "bootbox.setDefaults({ locale: 'br'});"
-            . "%s('#{main} tbody').on( 'click', 'td.col-button > span.{$id}', function () {"
+        $_js =  "%s('td.col-button > span.{$id}').on( 'click', function () {"
             . "var table = {main}.DataTable();"
             . "var _cell =  $(this).parent();"
             . "var rowIdx = table.cell(_cell ).index().row;"
@@ -166,5 +167,25 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
             $_js,
             ZendX_JQuery_View_Helper_JQuery::getJQueryHandler()
         );
+    }
+
+
+    /**
+     * insere o conteudo JavaScript de cada elemento na pagina
+     *
+     * @param ZfC_DataTable_Create[] $content
+     */
+    public function buttomJs($content)
+    {
+        if (!is_array($content)) {
+            return;
+        }
+
+        foreach ($content as $key => $objCreate) {
+            if ($objCreate->hasJscript()) {
+                $this->jquery->addOnLoad(str_replace('{main}', $this->_id, $objCreate->getJscript()));
+            }
+        }
+
     }
 }
