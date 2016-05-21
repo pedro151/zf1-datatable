@@ -16,6 +16,8 @@ class ZfC_DataTable implements Iterator, Countable
     const DECORATOR = 'DECORATOR';
     const ELEMENT = 'ELEMENT';
 
+    const METHOD_GET    = 'get';
+    const METHOD_POST   = 'post';
 
     /**
      * Decorators for rendering
