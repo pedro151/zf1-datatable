@@ -2117,9 +2117,12 @@ class ZfC_DataTable implements Iterator, Countable
     /**
      * @param string $urlAjax
      */
-    public function setAjax($urlAjax)
+    public function setAjax( array $urlOptions = array () , $name = null , $reset = false , $encode = true)
     {
-        $this->_urlajax = $urlAjax;
+        $urlOptions[] = '';
+        $url = $this->getView ()->url ( $urlOptions , $name , $reset , $encode );
+        $url = substr_replace ( $url , "" , strlen ( $url ) - 3 );
+        $this->_urlajax = $url;
 
         return $this;
     }
