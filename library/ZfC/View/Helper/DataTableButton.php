@@ -71,7 +71,6 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
             $modal = ' modal="' . $this->getElement ()->getAttrib ( 'modal' ) . '"';
         }
 
-
         $url = $this->getElement ()->getAttrib ( "url" );
         $xhtml = '<th'
                  . ' id="' . $this->getId () . '"'
@@ -89,22 +88,17 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
 
     public function attrJS ()
     {
-        $classButtom = $this->hasOption ( 'className' )
-            ? $this->getOption ( 'className' ) : 'btn-primary';
-        $whidth = $this->hasOption ( 'width' )
-            ? $this->getOption ( 'width' ) : '5%';
-        $this->setOption ( 'width' , $whidth );
+        $return = $this->getOptions ( $this->getElementAttribs () );
+        $classButtom = isset( $return[ 'className' ] )
+            ? $return[ 'className' ] : 'btn-primary';
+        $return[ 'width' ] = isset( $return[ 'width' ] )
+            ? $return[ 'width' ] : '5%';
 
-        $return = array ();
-        if ( $this->hasOptions () )
+        foreach ( $return as $opcao => $value )
         {
-            foreach ( $this->getOptions () as $opcao => $value )
+            if ( $opcao === 'className' )
             {
-                if ( $opcao === 'className' )
-                {
-                    continue;
-                }
-                $return[ $opcao ] = $value;
+                unset( $return[ $opcao ] );
             }
         }
 
@@ -131,33 +125,37 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
     public function createJscript ()
     {
         $attribs = $this->getElementAttribs ();
-        if ( ! isset( $attribs[ 'paramJs' ] ) )
+        if ( ! isset( $attribs[ 'url' ] ) )
         {
             return;
         }
 
-        $json_param = json_encode ( $attribs[ 'paramJs' ] );
-        $id = $attribs[ 'id' ];
+        $jsonparamAjax = "";
+        if ( isset( $attribs[ 'paramJs' ] ) )
+        {
+            $json_param = json_encode ( $attribs[ 'paramJs' ] );
+            $jsonparamAjax = "var columns={$json_param};"
+              . "var columnIdx=[];"
+              . "$.each(columns, function(k,v){"
+              . "columnIdx.push(table.column( v+':name' ).index());"
+              . "});"
+              . "var columnDataHeader = table.columns(columnIdx).header();"
+              . "var columnData = table.cells( rowIdx,columnIdx).data();"
+              . "for (i = 0; i < columnDataHeader.length; i++) {"
+              . "id = $(columnDataHeader[i]).attr('id');"
+              . "url += '/'+id+'/'+columnData[i];"
+              . "}";
+        }
 
+        $id = $attribs[ 'id' ];
         $_js = "%s('#{main} tbody').on( 'click', 'td.col-button > span.{$id}', function () {"
                . "var table = {main}.DataTable();"
                . "var _cell =  $(this).parent();"
                . "var rowIdx = table.cell(_cell ).index().row;"
-               . "var columns={$json_param};"
-               . "var columnIdx=[];"
                . "var header = table.column($(_cell).index()).header();"
                . "var \$header = $(header);"
                . "var url = \$header.attr('url');"
-               . "$.each(columns, function(k,v){"
-               . "columnIdx.push(table.column( v+':name' ).index());"
-               . "});"
-               . "var columnDataHeader = table.columns(columnIdx).header();"
-               . "var columnData = table.cells( rowIdx,columnIdx).data();"
-               . "for (i = 0; i < columnDataHeader.length; i++) {"
-               . "id = $(columnDataHeader[i]).attr('id');"
-
-               . "url += '/'+id+'/'+columnData[i];"
-               . "}"
+               . $jsonparamAjax
                . "if(\$header.attr('modal')){"
                . "bootbox.confirm(\$header.attr('modal'), function(result) {"
                . "if(result){"
@@ -165,7 +163,7 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
                . "}"
                . "});"
                . "}else{"
-               . " window.location.href = url;"
+               . "window.location.href = url;"
                . "}"
                . "} );";
 

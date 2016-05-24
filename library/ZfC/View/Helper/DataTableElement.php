@@ -1,6 +1,5 @@
 <?php
 
-
 abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlElement
 {
     /**
@@ -172,76 +171,37 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
         return $info;
     }
 
-    public function setOptions ( $options )
+    public function getOptions ( $options )
     {
+        $returnOptions = array ();
         if ( is_null ( $options ) )
         {
-            return $this;
+            return $returnOptions;
         }
+
         if ( array_key_exists ( 'width' , $options )
              && ! is_null ( $options[ 'width' ] )
         )
         {
-            $this->_options[ 'width' ] = $options[ 'width' ];
+            $returnOptions[ 'width' ] = $options[ 'width' ];
             unset( $options[ 'width' ] );
         }
+
         if ( array_key_exists ( 'class' , $options )
              && ! is_null ( $options[ 'class' ] )
         )
         {
-            $this->_options[ 'className' ] = $options[ 'class' ];
+            $returnOptions[ 'className' ] = $options[ 'class' ];
             unset( $options[ 'class' ] );
         }
+
         if ( array_key_exists ( 'type' , $options ) && ! is_null ( $options[ 'type' ] ) )
         {
-            $this->_options[ 'type' ] = $options[ 'type' ];
+            $returnOptions[ 'type' ] = $options[ 'type' ];
             unset( $options[ 'type' ] );
         }
 
-        return $this;
-    }
-
-    public function getOptions ()
-    {
-        $this->populateOptions();
-        return $this->_options;
-    }
-
-    public function getOption ( $name )
-    {
-        $this->populateOptions();
-        if ( isset( $this->_options[ $name ] ) )
-        {
-            return $this->_options[ $name ];
-        }
-    }
-
-    public function setOption ( $name , $value )
-    {
-        $this->populateOptions();
-        $this->_options[ $name ] = $value;
-
-        return $this;
-    }
-
-    public function hasOptions ()
-    {
-        $this->populateOptions();
-        return (bool) $this->_options;
-    }
-
-    public function hasOption ( $option )
-    {
-        $this->populateOptions();
-        return isset( $this->_options[ $option ] );
-    }
-
-    private function populateOptions (  )
-    {
-        if ( empty( $this->options ) )
-        {
-            $this->setOptions ( $this->getElementAttribs () );
-        }
+        return $returnOptions;
     }
 
     public function attrJS ()
@@ -300,7 +260,6 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
     {
         $this->_helper = $helper;
         $this->_element = $element;
-        $this->setOptions ( $element->options );
     }
 
     public function getName ()

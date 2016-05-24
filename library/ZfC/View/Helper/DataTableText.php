@@ -1,6 +1,5 @@
 <?php
 
-
 class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
 {
 
@@ -37,12 +36,7 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
 
     public function attrJS ()
     {
-
-        $return = array ();
-        if ( $this->hasOptions () )
-        {
-            $return = $this->getOptions ();
-        }
+        $return = $this->getOptions ( $this->getElementAttribs () );
         $return += array (
             "name" => $this->getId () ,
             "data" => $this->getId ()
