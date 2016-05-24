@@ -282,6 +282,7 @@ class ZfC_DataTable_Element
                 }
             }
 
+
             if ( method_exists ( $this , $method ) )
             {
                 // Setter exists; use it

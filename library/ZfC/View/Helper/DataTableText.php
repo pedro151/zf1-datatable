@@ -37,6 +37,7 @@ class ZfC_View_Helper_DataTableText extends ZfC_View_Helper_DataTableElement
 
     public function attrJS ()
     {
+
         $return = array ();
         if ( $this->hasOptions () )
         {

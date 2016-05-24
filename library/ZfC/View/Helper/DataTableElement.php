@@ -203,11 +203,13 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
 
     public function getOptions ()
     {
+        $this->populateOptions();
         return $this->_options;
     }
 
     public function getOption ( $name )
     {
+        $this->populateOptions();
         if ( isset( $this->_options[ $name ] ) )
         {
             return $this->_options[ $name ];
@@ -216,6 +218,7 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
 
     public function setOption ( $name , $value )
     {
+        $this->populateOptions();
         $this->_options[ $name ] = $value;
 
         return $this;
@@ -223,12 +226,22 @@ abstract class ZfC_View_Helper_DataTableElement extends Zend_View_Helper_HtmlEle
 
     public function hasOptions ()
     {
+        $this->populateOptions();
         return (bool) $this->_options;
     }
 
     public function hasOption ( $option )
     {
+        $this->populateOptions();
         return isset( $this->_options[ $option ] );
+    }
+
+    private function populateOptions (  )
+    {
+        if ( empty( $this->options ) )
+        {
+            $this->setOptions ( $this->getElementAttribs () );
+        }
     }
 
     public function attrJS ()
