@@ -66,13 +66,13 @@ class ZfC_View_Helper_DataTableButton extends ZfC_View_Helper_DataTableElement
         $this->jquery->addOnLoad ( self::BOOTBOX_DEFAULT );
 
         $modal = '';
-        if ( $this->hasOption ( 'modal' ) )
+        if ( $this->getElement ()->getAttrib ( 'modal' ) )
         {
-            $modal = ' modal="' . $this->getOption ( 'modal' ) . '"';
+            $modal = ' modal="' . $this->getElement ()->getAttrib ( 'modal' ) . '"';
         }
 
 
-        $url = $this->getElement()->getAttrib( "url" );
+        $url = $this->getElement ()->getAttrib ( "url" );
         $xhtml = '<th'
                  . ' id="' . $this->getId () . '"'
                  . ' url="' . $url . '"'

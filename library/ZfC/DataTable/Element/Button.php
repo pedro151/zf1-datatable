@@ -74,7 +74,7 @@ class ZfC_DataTable_Element_Button extends ZfC_DataTable_Element
 
     public function setModal ( $message )
     {
-        $this->modal = $message;
+        $this->setAttrib ( 'modal' , $message );
 
         return $this;
     }
