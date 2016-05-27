@@ -3,7 +3,6 @@
 /** Zend_View_Helper_FormElement */
 require_once 'Zend/View/Helper/FormElement.php';
 
-
 class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
 {
     const FILE_DATATABLE            = 'jquery.dataTables.min.js';
@@ -62,21 +61,32 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
             unset( $attribs[ 'id' ] );
         }
 
+        $tfoot = '';
+        if ( array_key_exists ( 'tfoot' , $attribs ) && $attribs[ 'tfoot' ] )
+        {
+            $tfoot = '<tfoot>'
+                     . '<tr role="row">'
+                     . $this->createContent ( $content )
+                     . '</tr>'
+                     . '</tfoot>';
+
+        }
+
         $xhtml = '<table cellpadding="0" cellspacing="0" border="0" '
                  . $id
                  . $name
                  . $this->_htmlAttribs ( $attribs )
-                 . '><thead>
-            <tr role="row">';
-        $xhtml .= $this->createContent ( $content );
-        $xhtml .= '</tr></thead></table>';
+                 . '><thead>'
+                 . '<tr role="row">'
+                 . $this->createContent ( $content )
+                 . '</tr></thead>'
+                 . $tfoot
+                 . '</table>';
+
 
         return array ( 'xhtml' => $xhtml );
     }
 
-    /**
-     * @param  ZfC_DataTable_Create[] $content content
-     */
     public function createContent ( $content )
     {
         $xhtml = '';
@@ -180,6 +190,31 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
             json_encode ( $paramsJson )
         );
 
+        $initComplete = '';
+        if ( array_key_exists ( 'tfoot' , $this->_attribs ) && $this->_attribs[ 'tfoot' ] )
+        {
+            $initComplete = '"initComplete" : function () {'
+                            . 'this.api().columns().every( function () {'
+                            . 'var column = this;'
+                            . 'if($(column.footer()).text()==""){ return; }'
+                            . 'var select = $(\'<select><option value=\"\"></option></select>\')'
+                            . '.appendTo( $(column.footer()).empty() )'
+                            . '.on( \'change\', function () {'
+                            . 'var val = $.fn.dataTable.util.escapeRegex('
+                            . '$(this).val()'
+                            . ');'
+                            . 'column.search( val ? \'^\'+val+\'$\' : \'\', true, false ).draw();'
+                            . '} );'
+                            . 'column.data().unique().sort().each( function ( d, j ) {'
+                            . 'if(typeof(d)!="object"){'
+                            . 'select.append( \'<option value=\"\'+d+\'\">\'+d+\'</option>\' )'
+                            . "}"
+                            . '} );'
+                            . '} );'
+                            . '}';
+
+        }
+
         if ( $this->isCached () )
         {
             $this->jquery->addJavascriptFile ( $base . self::FILE_DATATABLE_PIPELINE );
@@ -191,7 +226,8 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
             );
 
             $js = sprintf (
-                'var %s = %s("%s").dataTable({%s,"%s" : %2$s.fn.dataTable.pipeline(%s)});' ,
+                'var %s = %s("%s").dataTable({%s,"%s" : %2$s.fn.dataTable.pipeline(%s),'
+                . $initComplete . '});' ,
                 $this->_id ,
                 ZendX_JQuery_View_Helper_JQuery::getJQueryHandler () ,
                 'table#' . $this->_id ,
@@ -202,7 +238,7 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
         }
 
         $this->jquery->addOnLoad ( $js );
-         $this->insertMainIdJs ( $content );
+        $this->insertMainIdJs ( $content );
     }
 
     /**
@@ -212,13 +248,13 @@ class ZfC_View_Helper_DataTable extends Zend_View_Helper_HtmlElement
      */
     public function insertMainIdJs ( $content )
     {
-        foreach (  $content as $index => $item )
+        foreach ( $content as $index => $item )
         {
             if ( empty( $item[ 'JS' ] ) )
             {
                 continue;
             }
-            $this->jquery->addOnLoad ( str_replace ( '{main}' , $this->_id , $item["JS"]) );
+            $this->jquery->addOnLoad ( str_replace ( '{main}' , $this->_id , $item[ "JS" ] ) );
         }
     }
 
